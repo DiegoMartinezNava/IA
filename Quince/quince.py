@@ -26,16 +26,21 @@ def mostrar_estado(numeros_disponibles, personita, computadora):
 
 # Revisar si un jugador ya ganó (algún trío suma 15)
 def hay_ganador(jugador):
+    # Solo se puede ganar si ya se tienen al menos 3 números
     if len(jugador) < 3:
         return False
+    # Se revisan todas las combinaciones posibles de 3 números
     return any(sum(c) == 15 for c in combinations(jugador, 3))
 
 # Determinar si la partida terminó (victoria o empate por límites/disponibles)
 def juego_terminado(personita, computadora, numeros_disponibles):
+    # Alguien ganó
     if hay_ganador(personita) or hay_ganador(computadora):
         return True
+    # Empate por alcanzar el tope de 3 por jugador sin ganador
     if len(personita) >= MAX_NUMEROS_POR_JUGADOR and len(computadora) >= MAX_NUMEROS_POR_JUGADOR:
         return True
+    # Empate por quedarse sin números disponibles (por si cambias el tope)
     if not numeros_disponibles:
         return True
     return False
@@ -45,21 +50,26 @@ def jugada_personita(numeros_disponibles):
     while True:
         try:
             eleccion = int(input("Elige un número disponible (1-9): "))
+            # Revisamos que el número esté disponible
             if eleccion not in numeros_disponibles:
                 print("Ese número no está disponible, intenta otro.")
                 continue
             return eleccion
         except ValueError:
+            # Controlamos que la personita escriba un número válido
             print("Debes ingresar un número válido.")
 
 # Jugada de la computadora (estrategia básica)
 def jugada_computadora(numeros_disponibles, personita, computadora):
+    # a) Si puede ganar, lo hace
     for n in numeros_disponibles:
         if hay_ganador(computadora + [n]):
             return n
+    # b) Si la personita puede ganar en el siguiente, bloqueo
     for n in numeros_disponibles:
         if hay_ganador(personita + [n]):
             return n
+    # c) Si no hay peligro ni victoria inmediata, elije al azar
     return random.choice(numeros_disponibles)
 
 # Preguntar si se desea volver a jugar
@@ -70,6 +80,22 @@ def preguntar_reintento():
             return r == 's'
         print("Opción no válida. Escribe 's' para sí o 'n' para no.")
 
+# Elegimos quién empieza (solo Personita o Computadora)
+def elegir_quien_empieza():
+    """
+    Preguntamos quién inicia la partida:
+    - 'p' -> empieza Personita
+    - 'c' -> empieza la Computadora
+    Regresamos 'personita' o 'computadora'.
+    """
+    while True:
+        s = input("¿Quién empieza? (p=Personita, c=Computadora): ").strip().lower()
+        if s in ('p', 'personita'):
+            return 'personita'
+        if s in ('c', 'computadora'):
+            return 'computadora'
+        print("Opción no válida. Escribe p o c.")
+
 # -------- Juego principal --------
 
 def jugar():
@@ -79,41 +105,54 @@ def jugar():
 
     # Bucle de varias partidas
     while True:
-        numeros_disponibles = list(range(1, 10))
-        personita = []
-        computadora = []
-        turno = "personita"
+        # --- Configuración inicial de cada nueva partida ---
+        numeros_disponibles = list(range(1, 10))  # del 1 al 9
+        personita = []   # Números de la personita
+        computadora = [] # Números de la computadora
+
+        # Preguntamos quién empieza para esta partida
+        turno = elegir_quien_empieza()
+        print(f"Empieza: {'Personita' if turno == 'personita' else 'Computadora'}")
 
         print("\n--- Nueva Partida ---")
+        # --- Comienza la partida ---
         while True:
             mostrar_estado(numeros_disponibles, personita, computadora)
 
+            # Turno de la personita (si no alcanzó el tope)
             if turno == "personita":
                 if len(personita) < MAX_NUMEROS_POR_JUGADOR:
                     mov = jugada_personita(numeros_disponibles)
                     numeros_disponibles.remove(mov)
                     personita.append(mov)
+                    # ¿Ganó la personita?
                     if hay_ganador(personita):
                         mostrar_estado(numeros_disponibles, personita, computadora)
                         print("¡Felicidades Personita! Ganaste esta partida.")
                         marcador_persona += 1
                         break
+                # Ceder turno
                 turno = "computadora"
 
+            # Turno de la computadora (si no alcanzó el tope)
             else:
                 if len(computadora) < MAX_NUMEROS_POR_JUGADOR:
                     mov = jugada_computadora(numeros_disponibles, personita, computadora)
                     numeros_disponibles.remove(mov)
                     computadora.append(mov)
                     print(f"La computadora eligió el {mov}")
+                    # ¿Ganó la computadora?
                     if hay_ganador(computadora):
                         mostrar_estado(numeros_disponibles, personita, computadora)
                         print("¡Ups! La computadora ganó esta partida.")
                         marcador_pc += 1
                         break
+                # Ceder turno
                 turno = "personita"
 
+            # ¿Se terminó la partida por empate o recursos?
             if juego_terminado(personita, computadora, numeros_disponibles):
+                # Si nadie ganó explícitamente, es empate
                 if not hay_ganador(personita) and not hay_ganador(computadora):
                     mostrar_estado(numeros_disponibles, personita, computadora)
                     print("Empate: se alcanzó el límite o ya no hay números disponibles.")
@@ -122,7 +161,7 @@ def jugar():
         # Mostrar marcador
         print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc}")
 
-        # Preguntar si seguir o salir
+        # Preguntar si seguir o salir (si dice que sí, volvemos a elegir quién inicia)
         if not preguntar_reintento():
             print("\nGracias por jugar. ¡Hasta luego!")
             break

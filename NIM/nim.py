@@ -38,6 +38,22 @@ def jugada_personita(monton, limite_por_turno):
         except ValueError:
             print("Debes ingresar un número válido.")
 
+# Elegimos quién empieza (solo Personita o Computadora)
+def elegir_quien_empieza():
+    """
+    Preguntamos quién inicia la partida:
+    - 'p' -> empieza Personita
+    - 'c' -> empieza la Computadora
+    Regresamos 'personita' o 'computadora'.
+    """
+    while True:
+        s = input("¿Quién empieza? (p=Personita, c=Computadora): ").strip().lower()
+        if s in ('p', 'personita'):
+            return 'personita'
+        if s in ('c', 'computadora'):
+            return 'computadora'
+        print("Opción no válida. Escribe p o c.")
+
 # -------- Juego principal --------
 
 def jugar():
@@ -70,27 +86,34 @@ def jugar():
             except ValueError:
                 print("Debes ingresar un número válido.")
 
+        # --- Elegimos quién empieza para esta nueva partida ---
+        turno = elegir_quien_empieza()
+        print(f"Empieza: {'Personita' if turno == 'personita' else 'Computadora'}")
+
         # --- Comienza la partida ---
         fichas_restantes = monton
         print("\n--- Nueva Partida ---")
         while True:
             mostrar_monton(fichas_restantes)
 
-            # Turno de la personita
-            fichas_restantes = jugada_personita(fichas_restantes, limite_por_turno)
-            if juego_terminado(fichas_restantes):
-                mostrar_monton(fichas_restantes)
-                print("¡Felicidades Personita! Ganaste esta partida.")
-                marcador_persona += 1
-                break
-
-            # Turno de la computadora
-            fichas_restantes = jugada_computadora(fichas_restantes, limite_por_turno)
-            if juego_terminado(fichas_restantes):
-                mostrar_monton(fichas_restantes)
-                print("¡Ups! La computadora ganó esta partida.")
-                marcador_pc += 1
-                break
+            if turno == 'personita':
+                # Turno de la personita
+                fichas_restantes = jugada_personita(fichas_restantes, limite_por_turno)
+                if juego_terminado(fichas_restantes):
+                    mostrar_monton(fichas_restantes)
+                    print("¡Felicidades Personita! Ganaste esta partida.")
+                    marcador_persona += 1
+                    break
+                turno = 'computadora'
+            else:
+                # Turno de la computadora
+                fichas_restantes = jugada_computadora(fichas_restantes, limite_por_turno)
+                if juego_terminado(fichas_restantes):
+                    mostrar_monton(fichas_restantes)
+                    print("¡Ups! La computadora ganó esta partida.")
+                    marcador_pc += 1
+                    break
+                turno = 'personita'
 
         # Mostrar marcador
         print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc}")

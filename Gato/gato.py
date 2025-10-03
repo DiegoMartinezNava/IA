@@ -72,10 +72,26 @@ def movimiento_computadora(tablero, simbolo_pc, simbolo_persona):
     # e) Cualquier libre
     return random.choice(casillas_libres(tablero))
 
+# Elegimos quién empieza (solo Personita o Computadora)
+def elegir_quien_empieza():
+    """
+    Preguntamos quién inicia la partida:
+    - 'p' -> empieza Personita
+    - 'c' -> empieza la Computadora
+    Regresamos 'personita' o 'computadora'.
+    """
+    while True:
+        s = input("¿Quién empieza? (p=Personita, c=Computadora): ").strip().lower()
+        if s in ('p', 'personita'):
+            return 'personita'
+        if s in ('c', 'computadora'):
+            return 'computadora'
+        print("Opción no válida. Escribe p o c.")
+
 # -------- Juego principal --------
 
 def jugar():
-    # Elegir símbolo
+    # Elegimos símbolo (dejamos que la personita escoja)
     while True:
         simbolo_persona = input("¿Quieres jugar con X o con O? ").upper().strip()
         if simbolo_persona in ['X','O']:
@@ -90,8 +106,11 @@ def jugar():
 
     # Bucle para jugar varias partidas
     while True:
+        # Aquí preguntamos SIEMPRE quién empieza para esta nueva partida
+        turno = elegir_quien_empieza()
+        print(f"Empieza: {'Personita' if turno=='personita' else 'Computadora'}")
+
         tablero = [' '] * 9
-        turno = 'personita' if simbolo_persona == 'X' else 'computadora'
         ganador = None
 
         print("\n--- Nueva Partida ---")
@@ -128,8 +147,8 @@ def jugar():
         # Mostrar marcador
         print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc}")
 
-        # Preguntar si seguir o salir
-        opcion = input("\n¿Quieres volver a jugar? (s/n): ").lower().strip()
+        # Preguntar si seguir o salir (sin preguntas extra de cambio: volvemos a pedir quién empieza)
+        opcion = input("\n¿Quieres volver a jugar otra partida? (s/n): ").lower().strip()
         if opcion != 's':
             print("\nGracias por jugar. ¡Hasta luego!")
             break
