@@ -103,6 +103,10 @@ def jugar():
     # Marcadores
     marcador_persona = 0
     marcador_pc = 0
+    marcador_empates = 0  
+
+    # Contador de partidas: la primera no se numera en el encabezado
+    contador_partidas = 0  # incrementa solo cuando la personita decide jugar de nuevo
 
     # Bucle para jugar varias partidas
     while True:
@@ -113,7 +117,12 @@ def jugar():
         tablero = [' '] * 9
         ganador = None
 
-        print("\n--- Nueva Partida ---")
+        # Encabezado de partida: la primera no lleva número
+        if contador_partidas == 0:
+            print("\n--- Nueva Partida ---")
+        else:
+            print(f"\n--- Partida {contador_partidas+1} ---")
+
         while True:
             mostrar_tablero(tablero)
 
@@ -142,16 +151,23 @@ def jugar():
             if not casillas_libres(tablero):
                 mostrar_tablero(tablero)
                 print("Empate.")
+                marcador_empates += 1
                 break
 
-        # Mostrar marcador
-        print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc}")
+        # Calcular cuántas partidas van jugadas (contando la primera como 1)
+        partidas_jugadas = contador_partidas + 1
+
+        # Mostrar marcador (incluyendo empates y partidas jugadas)
+        print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc} | Empates: {marcador_empates} | Partidas jugadas = {partidas_jugadas}")
 
         # Preguntar si seguir o salir (sin preguntas extra de cambio: volvemos a pedir quién empieza)
         opcion = input("\n¿Quieres volver a jugar otra partida? (s/n): ").lower().strip()
         if opcion != 's':
             print("\nGracias por jugar. ¡Hasta luego!")
             break
+
+        # Si la personita decide jugar de nuevo, incrementamos el contador de partidas
+        contador_partidas += 1
 
 # -------- Iniciar el programa --------
 print("¡Bienvenido al juego de Gato!")

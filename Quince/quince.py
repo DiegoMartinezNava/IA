@@ -102,6 +102,10 @@ def jugar():
     # Marcadores globales
     marcador_persona = 0
     marcador_pc = 0
+    marcador_empates = 0
+
+    # Contador de partidas: incrementa solo cuando la personita decide jugar de nuevo
+    contador_partidas = 0
 
     # Bucle de varias partidas
     while True:
@@ -114,7 +118,12 @@ def jugar():
         turno = elegir_quien_empieza()
         print(f"Empieza: {'Personita' if turno == 'personita' else 'Computadora'}")
 
-        print("\n--- Nueva Partida ---")
+        # Encabezado de partida: la primera no lleva número
+        if contador_partidas == 0:
+            print("\n--- Nueva Partida ---")
+        else:
+            print(f"\n--- Partida {contador_partidas + 1} ---")
+
         # --- Comienza la partida ---
         while True:
             mostrar_estado(numeros_disponibles, personita, computadora)
@@ -156,15 +165,22 @@ def jugar():
                 if not hay_ganador(personita) and not hay_ganador(computadora):
                     mostrar_estado(numeros_disponibles, personita, computadora)
                     print("Empate: se alcanzó el límite o ya no hay números disponibles.")
+                    marcador_empates += 1
                 break
 
-        # Mostrar marcador
-        print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc}")
+        # Calcular cuántas partidas van jugadas (contando la primera como 1)
+        partidas_jugadas = contador_partidas + 1
+
+        # Mostrar marcador (incluyendo empates y partidas jugadas)
+        print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc} | Empates: {marcador_empates} | Partidas jugadas = {partidas_jugadas}")
 
         # Preguntar si seguir o salir (si dice que sí, volvemos a elegir quién inicia)
         if not preguntar_reintento():
             print("\nGracias por jugar. ¡Hasta luego!")
             break
+
+        # Si la personita decide jugar de nuevo, incrementamos el contador de partidas
+        contador_partidas += 1
 
 # -------- Iniciar el programa --------
 print("¡Bienvenido al Juego del 15!")
