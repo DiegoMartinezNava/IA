@@ -1,56 +1,188 @@
-# Importamos librerías necesarias para manejar el tablero
-# y crear copias sin afectar el original.
-from copy import deepcopy
-import random
-from typing import List, Tuple
+# Juego del 15
+# Personita vs Computadora
+# Gana quien junte 3 números distintos del 1 al 9 que sumen exactamente 15
 
-# Definimos el estado objetivo con los números del 1 al 15
-# y dejamos el 0 como espacio vacío.
-GOAL: List[List[int]] = [
-    [1,  2,  3,  4],
-    [5,  6,  7,  8],
-    [9, 10, 11, 12],
-    [13,14, 15, 0]
+import random
+from itertools import combinations
+
+# -------- Configuración / Constantes --------
+
+# Guardamos todas las combinaciones ganadoras (tríos que suman 15)
+COMBINACIONES_GANADORAS = [
+    (1, 5, 9), (1, 6, 8), (2, 4, 9), (2, 5, 8), (2, 6, 7),
+    (3, 4, 8), (3, 5, 7), (4, 5, 6)
 ]
 
-# Creamos un alias de tipo para representar al tablero.
-Board = List[List[int]]
+# Límite de números por jugador (para que no se puedan escoger más de 3)
+MAX_NUMEROS_POR_JUGADOR = 3
 
-# Creamos funciones para convertir de una lista plana (16 elementos)
-# a un tablero 4x4 y viceversa, ya que así podremos barajar más fácil.
-def from_flat(flat: List[int]) -> Board:
-    assert len(flat) == 16, "Necesitamos 16 elementos para el tablero 4x4"
-    return [flat[i:i+4] for i in range(0, 16, 4)]
+# -------- Funciones del juego --------
 
-def to_flat(board: Board) -> List[int]:
-    return [x for row in board for x in row]
+# Mostrar estado: disponibles y números de cada jugador
+def mostrar_estado(numeros_disponibles, personita, computadora):
+    print(f"\nNúmeros disponibles: {numeros_disponibles}")
+    print(f"Tus números: {personita}")
+    print(f"Números de la computadora: {computadora}")
 
-# Agregamos una función para imprimir el tablero en consola
-# de forma ordenada y con un guion bajo donde está el espacio vacío.
-def print_board(board: Board) -> None:
-    for row in board:
-        print(" ".join(f"{v:2d}" if v != 0 else " _" for v in row))
-    print()
+# Revisar si un jugador ya ganó (algún trío suma 15)
+def hay_ganador(jugador):
+    # Solo se puede ganar si ya se tienen al menos 3 números
+    if len(jugador) < 3:
+        return False
+    # Se revisan todas las combinaciones posibles de 3 números
+    return any(sum(c) == 15 for c in combinations(jugador, 3))
 
-# Creamos una función para localizar rápidamente la posición del hueco (0)
-# ya que la necesitaremos para mover las fichas.
-def find_zero(board: Board) -> Tuple[int, int]:
-    for i in range(4):
-        for j in range(4):
-            if board[i][j] == 0:
-                return i, j
-    raise ValueError("El tablero no contiene hueco (0)")
+# Determinar si la partida terminó (victoria o empate por límites/disponibles)
+def juego_terminado(personita, computadora, numeros_disponibles):
+    # Alguien ganó
+    if hay_ganador(personita) or hay_ganador(computadora):
+        return True
+    # Empate por alcanzar el tope de 3 por jugador sin ganador
+    if len(personita) >= MAX_NUMEROS_POR_JUGADOR and len(computadora) >= MAX_NUMEROS_POR_JUGADOR:
+        return True
+    # Empate por quedarse sin números disponibles (por si cambias el tope)
+    if not numeros_disponibles:
+        return True
+    return False
 
-# Agregamos una función que nos permitirá generar un tablero barajado.
-# Más adelante implementaremos la verificación de si es resoluble.
-def shuffled_board() -> Board:
-    flat = list(range(16))
-    random.shuffle(flat)
-    return from_flat(flat)
+# Turno de la personita
+def jugada_personita(numeros_disponibles):
+    while True:
+        try:
+            eleccion = int(input("Elige un número disponible (1-9): "))
+            # Revisamos que el número esté disponible
+            if eleccion not in numeros_disponibles:
+                print("Ese número no está disponible, intenta otro.")
+                continue
+            return eleccion
+        except ValueError:
+            # Controlamos que la personita escriba un número válido
+            print("Debes ingresar un número válido.")
 
-# Punto de entrada del programa.
-# Aquí solo mostramos un tablero inicial para probar.
-if __name__ == "__main__":
-    board = shuffled_board()
-    print("Tablero inicial generado:")
-    print_board(board)
+# Jugada de la computadora (estrategia básica)
+def jugada_computadora(numeros_disponibles, personita, computadora):
+    # a) Si puede ganar, lo hace
+    for n in numeros_disponibles:
+        if hay_ganador(computadora + [n]):
+            return n
+    # b) Si la personita puede ganar en el siguiente, bloqueo
+    for n in numeros_disponibles:
+        if hay_ganador(personita + [n]):
+            return n
+    # c) Si no hay peligro ni victoria inmediata, elije al azar
+    return random.choice(numeros_disponibles)
+
+# Preguntar si se desea volver a jugar
+def preguntar_reintento():
+    while True:
+        r = input("¿Quieres volver a jugar? (s/n): ").strip().lower()
+        if r in ('s', 'n'):
+            return r == 's'
+        print("Opción no válida. Escribe 's' para sí o 'n' para no.")
+
+# Elegimos quién empieza (solo Personita o Computadora)
+def elegir_quien_empieza():
+    """
+    Preguntamos quién inicia la partida:
+    - 'p' -> empieza Personita
+    - 'c' -> empieza la Computadora
+    Regresamos 'personita' o 'computadora'.
+    """
+    while True:
+        s = input("¿Quién empieza? (p=Personita, c=Computadora): ").strip().lower()
+        if s in ('p', 'personita'):
+            return 'personita'
+        if s in ('c', 'computadora'):
+            return 'computadora'
+        print("Opción no válida. Escribe p o c.")
+
+# -------- Juego principal --------
+
+def jugar():
+    # Marcadores globales
+    marcador_persona = 0
+    marcador_pc = 0
+    marcador_empates = 0
+
+    # Contador de partidas: incrementa solo cuando la personita decide jugar de nuevo
+    contador_partidas = 0
+
+    # Bucle de varias partidas
+    while True:
+        # --- Configuración inicial de cada nueva partida ---
+        numeros_disponibles = list(range(1, 10))  # del 1 al 9
+        personita = []   # Números de la personita
+        computadora = [] # Números de la computadora
+
+        # Preguntamos quién empieza para esta partida
+        turno = elegir_quien_empieza()
+        print(f"Empieza: {'Personita' if turno == 'personita' else 'Computadora'}")
+
+        # Encabezado de partida: la primera no lleva número
+        if contador_partidas == 0:
+            print("\n--- Nueva Partida ---")
+        else:
+            print(f"\n--- Partida {contador_partidas + 1} ---")
+
+        # --- Comienza la partida ---
+        while True:
+            mostrar_estado(numeros_disponibles, personita, computadora)
+
+            # Turno de la personita (si no alcanzó el tope)
+            if turno == "personita":
+                if len(personita) < MAX_NUMEROS_POR_JUGADOR:
+                    mov = jugada_personita(numeros_disponibles)
+                    numeros_disponibles.remove(mov)
+                    personita.append(mov)
+                    # ¿Ganó la personita?
+                    if hay_ganador(personita):
+                        mostrar_estado(numeros_disponibles, personita, computadora)
+                        print("¡Felicidades Personita! Ganaste esta partida.")
+                        marcador_persona += 1
+                        break
+                # Ceder turno
+                turno = "computadora"
+
+            # Turno de la computadora (si no alcanzó el tope)
+            else:
+                if len(computadora) < MAX_NUMEROS_POR_JUGADOR:
+                    mov = jugada_computadora(numeros_disponibles, personita, computadora)
+                    numeros_disponibles.remove(mov)
+                    computadora.append(mov)
+                    print(f"La computadora eligió el {mov}")
+                    # ¿Ganó la computadora?
+                    if hay_ganador(computadora):
+                        mostrar_estado(numeros_disponibles, personita, computadora)
+                        print("¡Ups! La computadora ganó esta partida.")
+                        marcador_pc += 1
+                        break
+                # Ceder turno
+                turno = "personita"
+
+            # ¿Se terminó la partida por empate o recursos?
+            if juego_terminado(personita, computadora, numeros_disponibles):
+                # Si nadie ganó explícitamente, es empate
+                if not hay_ganador(personita) and not hay_ganador(computadora):
+                    mostrar_estado(numeros_disponibles, personita, computadora)
+                    print("Empate: se alcanzó el límite o ya no hay números disponibles.")
+                    marcador_empates += 1
+                break
+
+        # Calcular cuántas partidas van jugadas (contando la primera como 1)
+        partidas_jugadas = contador_partidas + 1
+
+        # Mostrar marcador (incluyendo empates y partidas jugadas)
+        print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc} | Empates: {marcador_empates} | Partidas jugadas = {partidas_jugadas}")
+
+        # Preguntar si seguir o salir (si dice que sí, volvemos a elegir quién inicia)
+        if not preguntar_reintento():
+            print("\nGracias por jugar. ¡Hasta luego!")
+            break
+
+        # Si la personita decide jugar de nuevo, incrementamos el contador de partidas
+        contador_partidas += 1
+
+# -------- Iniciar el programa --------
+print("¡Bienvenido al Juego del 15!")
+print(f"Reglas: Toman números del 1 al 9, gana quien junte 3 que sumen 15. (Máximo {MAX_NUMEROS_POR_JUGADOR} por jugador)\n")
+jugar()
