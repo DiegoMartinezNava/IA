@@ -1,6 +1,5 @@
 # JUEGO DE NIM
 # Personita vs Computadora
-# VARIANTE: PIERDE QUIEN TOMA LA ÚLTIMA FICHA (misère)
 
 import sys
 
@@ -12,13 +11,11 @@ def mostrar_monton(monton):
 
 # Jugada de la computadora (estrategia misère)
 def jugada_computadora(monton, limite_por_turno):
-    # En la variante misère de una sola pila:
-    # P-positions: monton ≡ 1 (mod limite+1)
     # Estrategia: intentar dejar (limite+1)*k + 1
     m = limite_por_turno + 1
     objetivo = (monton - 1) % m
     if objetivo == 0:
-        quitar = 1  # no hay jugada ganadora, tomamos 1
+        quitar = 1
     else:
         quitar = objetivo
     quitar = max(1, min(quitar, min(limite_por_turno, monton)))
@@ -26,7 +23,7 @@ def jugada_computadora(monton, limite_por_turno):
     print(f"La computadora quita {quitar} ficha(s)")
     return monton
 
-# Revisar si el juego terminó (sin decidir ganador)
+# Revisar si el juego terminó
 def juego_terminado(monton):
     return monton == 0
 
@@ -43,14 +40,8 @@ def jugada_personita(monton, limite_por_turno):
         except ValueError:
             print("Debes ingresar un número válido.")
 
-# Elegimos quién empieza (solo Personita o Computadora)
+# Elegimos quién empieza
 def elegir_quien_empieza():
-    """
-    Preguntamos quién inicia la partida:
-    - 'p' -> empieza Personita
-    - 'c' -> empieza la Computadora
-    Regresamos 'personita' o 'computadora'.
-    """
     while True:
         s = input("¿Quién empieza? (p=Personita, c=Computadora): ").strip().lower()
         if s in ('p', 'personita'):
@@ -65,14 +56,14 @@ def jugar():
     # Marcadores
     marcador_persona = 0
     marcador_pc = 0
-    marcador_empates = 0  # En Nim misère de una pila no hay empates; quedará en 0.
+    marcador_empates = 0  # En Nim no hay empates; quedará en 0.
 
-    # Contador de partidas: la primera no se numera en el encabezado
+    # Contador de partidas
     contador_partidas = 0  # incrementa solo cuando la personita decide jugar de nuevo
 
     # Bucle de varias partidas
     while True:
-        # --- Configuración inicial (monton y límite) en cada nueva partida ---
+        # Configuración inicial (monton y límite) en cada nueva partida
         while True:
             try:
                 monton = int(input("Elige el tamaño del montón (100-999): "))
@@ -89,24 +80,28 @@ def jugar():
                 if 1 < limite_por_turno < monton:
                     if limite_por_turno > monton * 0.7:
                         print("Advertencia: el límite es demasiado cercano al montón, la partida podría ser aburrida.")
+                        continuar = input("¿Quieres continuar con este límite? (s/n): ").strip().lower()
+                        if continuar != 's':
+                            print("De acuerdo, volvamos a elegir la cantidad de fichas a quitar por turno.")
+                            continue  # volver a pedir el límite
                     break
                 else:
                     print("El límite debe ser menor que el montón y mayor a 1.")
             except ValueError:
                 print("Debes ingresar un número válido.")
 
-        # --- Elegimos quién empieza para esta nueva partida ---
+        # Elegimos quién empieza para esta nueva partida
         turno = elegir_quien_empieza()
         print(f"Empieza: {'Personita' if turno == 'personita' else 'Computadora'}")
         print("Regla: PIERDE quien toma la ÚLTIMA ficha.")
 
-        # Encabezado de partida: la primera no lleva número
+        # Encabezado de partida
         if contador_partidas == 0:
             print("\n--- Nueva Partida ---")
         else:
             print(f"\n--- Partida {contador_partidas+1} ---")
 
-        # --- Comienza la partida ---
+        # Comienza la partida
         fichas_restantes = monton
         while True:
             mostrar_monton(fichas_restantes)
@@ -115,7 +110,6 @@ def jugar():
                 # Turno de la personita
                 fichas_restantes = jugada_personita(fichas_restantes, limite_por_turno)
                 if juego_terminado(fichas_restantes):
-                    # En misère: quien tomó la última ficha PIERDE
                     mostrar_monton(fichas_restantes)
                     print("Tomaste la última ficha... ¡pierdes esta partida!")
                     print("La computadora gana esta partida.")
@@ -126,7 +120,6 @@ def jugar():
                 # Turno de la computadora
                 fichas_restantes = jugada_computadora(fichas_restantes, limite_por_turno)
                 if juego_terminado(fichas_restantes):
-                    # En misère: quien tomó la última ficha PIERDE
                     mostrar_monton(fichas_restantes)
                     print("La computadora tomó la última ficha... ¡pierde esta partida!")
                     print("¡Felicidades Personita! Ganaste esta partida.")
@@ -134,12 +127,10 @@ def jugar():
                     break
                 turno = 'personita'
 
-            # En Nim misère de una sola pila no existe condición de empate: alguien siempre toma la última ficha.
-
-        # Calcular cuántas partidas van jugadas (contando la primera como 1)
+        # Se calcula cuántas partidas van jugadas
         partidas_jugadas = contador_partidas + 1
 
-        # Mostrar marcador (incluyendo empates y partidas jugadas)
+        # Mostrar marcadores
         print(f"\nMarcador -> Personita: {marcador_persona} | Computadora: {marcador_pc} | Empates: {marcador_empates} | Partidas jugadas = {partidas_jugadas}")
 
         # Preguntar si seguir o salir
