@@ -7,7 +7,7 @@
 
 from collections import deque
 
-# Se importa la lista de adyacencia que ya está en grafo.py
+# Se importa la lista de adyacencia desde el archivo grafo.py
 from grafo import conexiones
 
 # Solo separa los nodos con comas 
@@ -36,7 +36,7 @@ def busqueda_ancha(inicio, meta, sentido):
     visitado = set([inicio])
     # padre permite reconstruir la ruta al final
     padre = {inicio: None}
-    # La cola permite recorrer por niveles (clave de lo ancho)
+    # La cola permite recorrer por niveles 
     cola = deque([inicio])
     # ya_generados evita repetir impresiones en consola
     ya_generados = set()
@@ -44,7 +44,7 @@ def busqueda_ancha(inicio, meta, sentido):
     print(f"Nodo inicial: {inicio}")
     print(f"Nodo {inicio} es meta? {'Si' if inicio == meta else 'No'}")
 
-    # Si el inicial ya era meta, se termina rápido
+    # Verifica si el nodo inicial es nodo meta
     if inicio == meta:
         print("Ruta: " + inicio)
         return True
@@ -69,7 +69,7 @@ def busqueda_ancha(inicio, meta, sentido):
 
     # Bucle principal, aquí sucede la exploración
     while cola:
-        u = cola.popleft()  # Se toma del frente (clave de lo ancho)
+        u = cola.popleft()  # Se toma del frente 
         print(f"Nodo {u} es meta? {'Si' if u == meta else 'No'}")
 
         # Si ya llegamos, se arma la ruta hacia atrás

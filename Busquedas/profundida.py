@@ -8,7 +8,7 @@
 # Se importa la lista de adyacencia desde el archivo grafo.py
 from grafo import conexiones
 
-# Solo separa los nodos con comas para imprimirlos 
+# Solo separa los nodos con comas 
 def _formatea_lista(vals):
     return ", ".join(vals)
 
@@ -32,7 +32,7 @@ def busqueda_profunda(inicio, meta, sentido):
 
     # visitado evita repetir nodos
     visitado = set()
-    # pila permite bajar profundo (clave de lo profundo)
+    # pila permite bajar profundo 
     pila = []
     # padre permite reconstruir la ruta al final
     padre = {}
@@ -42,12 +42,12 @@ def busqueda_profunda(inicio, meta, sentido):
     print(f"Nodo inicial: {inicio}")
     print(f"Nodo {inicio} es meta? {'Si' if inicio == meta else 'No'}")
 
-    # Si el inicial ya era meta, se termina rápido
+    # Verifica si el nodo inicial es nodo meta
     if inicio == meta:
         print("Ruta: " + inicio)
         return True
 
-    # Se muestran los nodos que salen del inicial (filtrando repeticiones)
+    # Se muestran los nodos que salen del inicial 
     gen_ini = [v for v in conexiones[inicio]
                if v not in visitado and v not in pila and v not in ya_generados and v != inicio]
     print(f"Nodo {inicio} genera: " + (_formatea_lista(gen_ini) if gen_ini else "NADA"))
