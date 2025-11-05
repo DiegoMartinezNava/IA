@@ -396,7 +396,6 @@ def main():
             print("Opción inválida.")
             continue
 
-        # Primero Mejor conserva su propio estilo de entrada y su propio grafo interno
         if op == "5":
             busqueda_primero_mejor()
         else:
