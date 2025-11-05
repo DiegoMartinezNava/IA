@@ -19,10 +19,7 @@ def formatea_lista(vals):
     return ", ".join(vals)
 
 def pedir_sentido():
-    """
-    Se pide si la personita quiere expandir en sentido horario o antihorario.
-    Regresamos el texto 'horario' o 'antihorario' porque así lo usan las funciones.
-    """
+#   Se pide si la personita quiere expandir en sentido horario o antihorario.
     while True:
         s = input("Ingresa el sentido (H=horario, A=antihorario): ").strip().upper()
         if s in ("H", "A"):
@@ -30,10 +27,8 @@ def pedir_sentido():
         print("Sentido inválido.")
 
 def pedir_nodo_busqueda(prompt, grafo):
-    """
-    Pedimos un nodo asegurando que exista en el grafo y lo tratamos como string.
-    Esta función se usa en las búsquedas 1–4 para mantener el mismo formato de entrada.
-    """
+#    Pedimos un nodo asegurando que exista en el grafo y lo tratamos como string.
+#    Esta función se usa en las búsquedas 1–4 para mantener el mismo formato de entrada.
     while True:
         n = input(prompt).strip()
         if n.isdigit() and n in grafo.lista:
@@ -41,10 +36,7 @@ def pedir_nodo_busqueda(prompt, grafo):
         print("Nodo inválido.")
 
 def imprimir_ruta(meta, padre):
-    """
-    Reconstruimos la ruta desde 'meta' hacia atrás usando el diccionario 'padre'.
-    Luego la invertimos y la mostramos con flechas '→' para que se lea bonito.
-    """
+#    Reconstruimos la ruta desde 'meta' hacia atrás usando el diccionario 'padre'.
     ruta = []
     actual = meta
     while actual is not None:
@@ -54,10 +46,8 @@ def imprimir_ruta(meta, padre):
     print("Ruta:", " → ".join(ruta))
 
 def h(grafo, nodo, meta):
-    """
-    Heurística: pedimos al grafo el valor estimado entre 'nodo' y 'meta'.
-    Si no existe en la tabla, devolvemos infinito para que no sea candidato.
-    """
+#    Heurística: pedimos al grafo el valor estimado entre 'nodo' y 'meta'.
+#    Si no existe en la tabla, devolvemos infinito para que no sea candidato.
     try:
         return grafo.evaluar(nodo, meta)
     except KeyError:
@@ -241,7 +231,7 @@ def escalada_simple(grafo, inicial, meta, sentido):
 # -------------------------------------------------------------------
 # (4) ESCALADA MÁXIMA PENDIENTE (BEMP)
 # Evalúa TODOS los vecinos y avanza al que tenga la mejor heurística.
-# Si no mejora, termina (meseta/local).
+# Si no mejora, termina.
 # -------------------------------------------------------------------
 def escalada_maxima_pendiente(grafo, inicial, meta, sentido):
     print("\n=== BÚSQUEDA DE ESCALADA MÁXIMA PENDIENTE (BEMP) ===")
@@ -311,9 +301,8 @@ def busqueda_primero_mejor():
                 return sentido
             print("Solo puedes elegir H o A")
 
-    grafo = Grafo()  # se crea el grafo (esta búsqueda usa su propia instancia)
+    grafo = Grafo()  # se crea el grafo 
 
-    # Prompts idénticos a los de tu compañera
     inicio = pedir_nodo("Ingresa el nodo inicial (1-28): ")
     while True:
         meta = pedir_nodo("Ingresa el nodo meta (1-28): ")
@@ -375,7 +364,7 @@ def busqueda_primero_mejor():
         camino.append(actual)
         paso += 1
 
-    # Al final, muestra la ruta completa con flechas
+    # Al final, muestra la ruta completa 
     print("Ruta final encontrada:")
     print(" → ".join(camino))
     print("=============================================")
@@ -411,7 +400,6 @@ def main():
         if op == "5":
             busqueda_primero_mejor()
         else:
-            # Para 1–4 usamos el mismo formato de prompts que acordaste
             inicio = pedir_nodo_busqueda("Ingresa el nodo inicial (1-28): ", g)
             meta = pedir_nodo_busqueda("Ingresa el nodo meta (1-28): ", g)
             sentido = pedir_sentido()
