@@ -428,7 +428,7 @@ def main():
         # Al terminar una búsqueda, preguntamos si se quiere repetir
         rep = input("\n¿Quieres realizar otra búsqueda? (S/N): ").strip().upper()
         if rep != "S":
-            print("\nEstá bien, hasta luego :)\n")
+            print("\nHasta luego :)\n")
             break
 
 if __name__ == "__main__":
