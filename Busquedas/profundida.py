@@ -1,12 +1,15 @@
-# ----------------------------------------------
-#     BÚSQUEDA A LO PROFUNDO
-# ----------------------------------------------
+# --- Equipo Cafesiux ---
+# Chavez Navarro Salma
+# Martinez Nava Diego
+# Tapia Mundo Melissa Monserrat
+
+# BÚSQUEDA A LO PROFUNDO
 # Este código recorre hacia lo más profundo posible usando una pila,
 # avanzando primero por un camino hasta que ya no se pueda y luego regresa.
-# La personita controla el sentido de expansión.
+# La personita controla el sentido.
 
-# Se importa la lista de adyacencia desde el archivo grafo.py
-from grafo import conexiones
+# Traemos el grafo desde el archivo común para no duplicar datos.
+from grafo import Grafo
 
 # Solo separa los nodos con comas 
 def _formatea_lista(vals):
@@ -14,16 +17,20 @@ def _formatea_lista(vals):
 
 # Función principal de la búsqueda a lo profundo
 def busqueda_profunda(inicio, meta, sentido):
+    # Instanciamos el grafo; aquí ya vienen lista, tabla, arcos y utilidades
+    g = Grafo()
+    adj = g.lista  # lista de adyacencia que usaremos para generar sucesores
+
     # Por si la personita mete números
     inicio = str(inicio).strip()
     meta = str(meta).strip()
     sentido = str(sentido).strip().lower()
 
     # Verificaciones básicas para evitar errores
-    if inicio not in conexiones:
+    if inicio not in adj:
         print(f"⚠️ El nodo inicial {inicio} no existe.")
         return False
-    if meta not in conexiones:
+    if meta not in adj:
         print(f"⚠️ El nodo final {meta} no existe.")
         return False
     if sentido not in ("h", "a"):
@@ -42,13 +49,15 @@ def busqueda_profunda(inicio, meta, sentido):
     print(f"Nodo inicial: {inicio}")
     print(f"Nodo {inicio} es meta? {'Si' if inicio == meta else 'No'}")
 
-    # Verifica si el nodo inicial es nodo meta
+    # Si el inicial ya era meta se termina 
     if inicio == meta:
         print("Ruta: " + inicio)
         return True
 
-    # Se muestran los nodos que salen del inicial 
-    gen_ini = [v for v in conexiones[inicio]
+    # Se muestran los nodos que salen del inicial (filtrando repeticiones)
+    # Si prefieres usar el método del grafo: sucesores = g.vecinos(inicio)
+    sucesores_ini = adj[inicio]
+    gen_ini = [v for v in sucesores_ini
                if v not in visitado and v not in pila and v not in ya_generados and v != inicio]
     print(f"Nodo {inicio} genera: " + (_formatea_lista(gen_ini) if gen_ini else "NADA"))
     ya_generados.update(gen_ini)
@@ -73,9 +82,11 @@ def busqueda_profunda(inicio, meta, sentido):
         u = pila[-1]  # se trabaja siempre con el tope (último en entrar)
 
         # Candidatos son los vecinos aún no visitados
-        candidatos = [v for v in conexiones[u] if v not in visitado]
+        # (si quieres usar el método: candidatos_base = g.vecinos(u))
+        candidatos_base = adj[u]
+        candidatos = [v for v in candidatos_base if v not in visitado]
 
-        # Si ya no hay a dónde seguir, se regresa (backtracking)
+        # Si ya no hay a dónde seguir, se regresa 
         if not candidatos:
             pila.pop()
             continue
@@ -94,7 +105,8 @@ def busqueda_profunda(inicio, meta, sentido):
             return True
 
         # Mostrar qué genera v sin repetir en consola
-        gen_v = [w for w in conexiones[v]
+        sucesores_v = adj[v]  # o g.vecinos(v)
+        gen_v = [w for w in sucesores_v
                  if w not in visitado and w not in pila and w not in ya_generados]
         print(f"Nodo {v} genera: " + (_formatea_lista(gen_v) if gen_v else "NADA"))
         ya_generados.update(gen_v)
@@ -120,7 +132,7 @@ def menu_profundo():
 
         otra = input("\nPersonita, ¿quieres realizar otra búsqueda? (s/n): ").strip().lower()
         if otra != "s":
-            print("\nEstá bien personita, hasta luego :)\n")
+            print("\nHasta luego :)\n")
             break
 
 # Entrada principal
