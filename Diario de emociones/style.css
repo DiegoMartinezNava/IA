@@ -105,6 +105,7 @@ h2 {
   color: #1E3A8A;
 }
 
+/* Listas generales */
 ul { list-style: none; padding: 0; margin: 0; }
 li {
   background: #F1F5F9;
@@ -112,6 +113,13 @@ li {
   border-radius: 10px;
   padding: 10px 12px;
   margin-top: 8px;
+}
+
+/* 🔽 Historial con scroll interno */
+#thoughtList {
+  max-height: 220px;          /* ajusta si quieres más/menos altura de historial */
+  overflow-y: auto;
+  padding-right: 4px;         /* pequeño espacio para que no tape el scroll */
 }
 
 /* ---------- Columna derecha ---------- */
@@ -131,7 +139,7 @@ li {
   display: block;
 }
 
-/* NUEVO: leyenda de colores */
+/* Leyenda de colores */
 .color-legend {
   display: flex;
   flex-wrap: wrap;
@@ -188,5 +196,14 @@ li {
   text-align: left;
 }
 #recList { list-style: disc; padding-left: 18px; color: #1F2937; }
-#recList li { background: transparent; border: none; padding: 4px 0; margin: 0 0 4px; }
-.rec-footnote { margin: 8px 0 0; font-size: 0.9rem; color: #475569; }
+#recList li {
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  margin: 0 0 4px;
+}
+.rec-footnote {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: #475569;
+}
