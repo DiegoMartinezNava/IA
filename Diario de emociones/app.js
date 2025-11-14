@@ -34,294 +34,340 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const normalize = (s) => normalizeBase(normalizeLatAm(s));
 
-  /* ==================== Léxico MUY ampliado ==================== */
-  const lex = {
+  /* ==================== Diccionario estilo Mel ==================== */
+
+  const reglasPalabras = {
     alegria: [
-      "feliz","felicidad","content","contento","contenta",
-      "alegr","alegre","alegres","gozo","gozoso","gozosa",
-      "sonrisa","sonriente","sonriend","divertid","diversion","diversiones",
-      "entusias","entusiasmado","entusiasmada",
-      "genial","maravill","maravilla","increibl","fantastic","fantastico","fantastica",
-      "positivo","positiva","optimista","optimismo",
-      "esperanz","esperanza","animad","animado","animada",
-      "motivad","motivado","motivada","emocionad","emocionado","emocionada",
-      "agradecid","agradecido","agradecida",
-      "orgull","orgulloso","orgullosa",
-      "satisfech","satisfecho","satisfecha",
-      "tranquil","tranquilo","tranquila","relajad","relajado","relajada",
-      "bien","muy bien","super bien","re bien",
-      "a gusto","a gusto con todo",
-      "chido","chida","padre","cool","nice",
-      "que buena onda","buena vibra","buenas vibras","que chido","que padre"
+      "feliz", "content", "alegr", "emocion", "bien", "tranquil", "optimist", "agradecid", "anim",
+      "divertid", "entusiasm", "relajad", "satisfech", "orgull", "maravill", "euforic",
+      "me muero de risa", "felicidad", "excelente", "genial", "sorprendentemente bien", "super content",
+      "con ganas", "excit", "entusiasta", "alegrecito", "vibrante", "radiante", "ilusion", "pura energia",
+      "diversion", "placentero", "felicidad total", "maravilloso", "fantastico", "fenomenal",
+      "wow que bien", "esto es lo mejor", "jajaja", "me encanta", "yeah", "super feliz"
     ],
-
     tristeza: [
-      "triste","tristeza","triston","tristona",
-      "solo","sola","soledad","sentirme solo","sentirme sola",
-      "llor","llorando","llanto","ganas de llorar",
-      "deprim","depresion","depre",
-      "melancol","melancolia",
-      "vacio","vacío","vaciamiento","hueco por dentro",
-      "nostalg","nostalgia","extrañ","extrano","extrana",
-      "desanimad","desanimado","desanimada","sin animo","sin ánimo",
-      "aguite","aguitad","aguitado","aguitada",
-      "bajonead","bajoneado","bajoneada",
-      "desesperanz","desesperanza","derrotad","derrotado","derrotada",
-      "infeliz","desconsolad","desconsolado","desconsolada",
-      "abatid","abatido","abatida",
-      "sin ganas","sin ganas de nada",
-      "cansado de todo","cansada de todo",
-      "me siento mal","me siento muy mal","me siento fatal",
-      "no tengo ganas de nada","nada me anima","nada me motiva"
+      "triste", "solo", "llor", "deprim", "mal", "nostalg", "sin ganas", "vaci", "agotad",
+      "melancol", "desanim", "abat", "frustr", "desesper", "desol", "desmotiv", "infeliz",
+      "desilusion", "angust", "desconsol", "desesperanz", "melancolia", "apatic", "abatimiento",
+      "pesimista", "derrot", "apagad", "cansancio emocional", "tristezon", "decadente", "desmoraliz", "nostalgic",
+      "me siento fatal", "no tengo ganas", "todo mal", "triste total", "de bajon", "harto de todo"
     ],
-
     enojo: [
-      "enoj","enojo","enojado","enojada",
-      "molest","molesto","molesta",
-      "furios","furioso","furiosa",
-      "rabia","coraje","irrit","irritado","irritada",
-      "fastidi","fastidio","harto","harta","ya me harte","ya me harté",
-      "odio","odiar","lo odio","la odio","los odio",
-      "frustracion","frustrado","frustrada",
-      "resentim","resentido","resentida",
-      "desquite","desquitarme","explote","explote","explotar",
-      "estallo","estalle","estallé",
-      "mal genio","mal humor","gruñon","gruñona",
-      "me vale","me vale todo","me vale madre","me vale madres",
-      "que coraje","que rabia","que enojo",
-      "me saca de quicio","me desespera","desesperado","desesperada"
+      "enoj", "molest", "furios", "rabia", "irrit", "odio", "resentim", "frustr", "indign", "enfurec",
+      "molestia", "irritacion", "rabios", "coraje", "exasper", "exalt", "fastidi", "iracund",
+      "explot", "quem", "frustracion total", "hartazg", "enerv", "coleric", "resentimiento profundo",
+      "rabia contenida", "que rabia", "no lo soporto", "ufff", "fastidiad", "me quema"
     ],
-
     miedo: [
-      "miedo","temor","temores",
-      "panic","panico","pánico",
-      "asust","asustado","asustada",
-      "susto","espanto","espantad","espantado","espantada",
-      "pavor","horror","terror",
-      "nervios","nervioso","nerviosa",
-      "paniquead","paniqueado","paniqueada",
-      "me da miedo","me da cosa","me espanta",
-      "me preocupa mucho","me aterra","me asusta",
-      "temer","temiendo","temblando","tembloroso","temblorosa"
+      "miedo", "asust", "temor", "panico", "nervios", "insegur", "angust", "preocup", "alarm", "tension",
+      "temblor", "desconfi", "reticent", "vacilant", "inquietud", "precaucion", "suspicaz",
+      "intranquil", "inseguridad", "aprehens", "pavor", "susto", "cautel", "alert",
+      "desconcert", "despavor", "tembloros", "cobardia", "que miedo", "me asuste", "me da miedo"
     ],
-
-    amor: [
-      "amor","amar","amo","amas","amamos",
-      "aprec","aprecio","apreciar",
-      "carin","carino","cariño","cariñoso","cariñosa",
-      "te quiero","te quiero mucho","te amo","lo amo","la amo",
-      "me encanta","me fascina","me gusta mucho","me super encanta",
-      "enamora","enamorado","enamorada","enamoradisimo","enamoradisima",
-      "ador","adoro","adorable",
-      "afecto","apego","cercania","cercanía",
-      "detalle bonito","detalle lindo","detalle hermoso",
-      "me hace feliz","me hace sentir bien",
-      "me importa mucho","me importas muchisimo","me importas muchísimo",
-      "lo quiero","la quiero","los quiero","las quiero"
-    ],
-
-    sorpresa: [
-      "sorprend","sorpresa","sorprendido","sorprendida",
-      "impresion","impresionad","impresionado","impresionada",
-      "inesperad","inesperado","inesperada",
-      "no me lo esperaba","no lo esperaba",
-      "wow","orale","órale","no inventes","no manches",
-      "asomb","asombro","asombrado","asombrada",
-      "impacto","impactante","impresionante",
-      "de golpe","de repente","de pronto",
-      "que raro","qué raro","algo raro paso","algo raro pasó",
-      "me dejo en shock","me dejó en shock","me saco de onda","me sacó de onda"
-    ],
-
-    aburrimiento: [
-      "aburr","aburrido","aburrida","aburridisimo","aburridísima",
-      "tedio","tedioso","tediosa",
-      "monoton","monotono","monotona","monotonia","monotonía",
-      "rutina","siempre lo mismo",
-      "pereza","perezoso","perezosa",
-      "flojera","hueva","huevon","huevona",
-      "desgan","desganado","desganada",
-      "apatic","apatia","apatico","apatica",
-      "no tengo ganas","no tengo ganas de hacer nada",
-      "sin ganas","nada que hacer","no hay nada que hacer",
-      "me da igual","no me interesa","todo me da igual",
-      "me da flojera","me da muchisima flojera",
-      "no hay nada interesante","todo se siente plano","todo se siente vacio"
-    ],
-
     ansiedad: [
-      "ansiedad","ansioso","ansiosa","ansios","ansiosa",
-      "estres","estresado","estresada",
-      "angust","angustia","angustiado","angustiada",
-      "tension","tenso","tensa",
-      "inquiet","inquieto","inquieta",
-      "duda","dudas","dudando",
-      "insegur","inseguridad","inseguro","insegura",
-      "indecis","indeciso","indecisa",
-      "preocup","preocupacion","preocupado","preocupada",
-      "nervios","nervioso","nerviosa",
-      "sobrepens","sobrepensando","sobrepensar",
-      "no se que hacer","no sé qué hacer",
-      "no se que va a pasar","no sé qué va a pasar",
-      "me preocupa","me preocupa mucho",
-      "me siento muy tenso","me siento muy tensa",
-      "estresadisimo","estresadísimo","estresadisima","estresadísima",
-      "presion","presión","siento presion","siento presión",
-      "no puedo relajarme","no puedo dormir","no logro descansar"
+      "ansiedad", "ansios", "estres", "angust", "no puedo dormir", "presion", "taquicardia", "no puedo respirar",
+      "inquiet", "nervios", "intranquil", "tenso", "desbord", "sobreexcit", "agobi",
+      "preocupacion constante", "obsesion", "inseguridad", "angustiad", "hipervigilancia", "desesperacion",
+      "temblor interno", "super nervios", "incomod", "cansancio mental", "preocupacion excesiva",
+      "ufff no puedo", "me pongo nervios", "no paro de pensar", "me acelero"
+    ],
+    amor: [
+      "amor", "carin", "te quiero", "me encanta", "corazon", "crush", "aprecio", "afecto", "ador",
+      "ternur", "romantic", "enamorado", "querer", "cuidar", "sentimiento", "pasion", "afectuoso",
+      "afecto profundo", "apapacho", "conexion", "mimos", "carinos", "admiracion", "adoracion", "ternura absoluta",
+      "aprecio verdadero", "corazon lleno", "amor platonico", "sentir amor", "te adoro", "me encanta estar contigo"
+    ],
+    sorpresa: [
+      "sorprend", "wow", "impresion", "inesperad", "asomb", "increibl", "alucin", "sorprendent", "maravill",
+      "fantastic", "impresionante", "inolvidable", "vaya", "quede sin palabras", "increiblemente",
+      "no lo esperaba", "flipante", "asombr", "super sorprendent", "increible", "asombroso",
+      "maravillosamente", "que sorpresa", "totalmente inesperado", "wow total", "no me lo creo", "sorprendente"
+    ],
+    aburrimiento: [
+      "aburr", "sin motivacion", "monoton", "rutina", "no se que hacer", "cansad", "agotad", "desinteres",
+      "tedio", "hastiad", "desganad", "repetitiv", "indiferent", "apatic", "flojera",
+      "poca energia", "sin ganas de nada", "fastidiad", "desanimad", "cansancio mental", "apatia total",
+      "harto de todo", "falta de inspiracion", "desmotivad", "sensacion de vacio", "aburridisima",
+      "ufff que aburrido", "no tengo nada que hacer", "que flojera", "sin animos"
     ]
   };
 
-  const exceptions = {
-    amo: ["amortiguar","amortiguo","amortiguada","amortiguado","amortiguamiento"]
-  };
-
-  const patterns = [
-    { phrase: "me siento feliz", em: "alegria", w: 1.2 },
-    { phrase: "me siento triste", em: "tristeza", w: 1.3 },
-    { phrase: "me siento ansioso", em: "ansiedad", w: 1.3 },
-    { phrase: "me siento ansiosa", em: "ansiedad", w: 1.3 },
-    { phrase: "me siento enojado", em: "enojo", w: 1.3 },
-    { phrase: "me siento enojada", em: "enojo", w: 1.3 },
-    { phrase: "me siento solo", em: "tristeza", w: 1.2 },
-    { phrase: "me siento sola", em: "tristeza", w: 1.2 },
-    { phrase: "me siento tranquilo", em: "alegria", w: 0.9 },
-    { phrase: "me siento tranquila", em: "alegria", w: 0.9 },
-
-    { phrase: "tengo miedo", em: "miedo", w: 1.4 },
-    { phrase: "tengo ansiedad", em: "ansiedad", w: 1.3 },
-    { phrase: "tengo coraje", em: "enojo", w: 1.3 },
-    { phrase: "tengo preocup", em: "ansiedad", w: 1.2 },
-
-    { phrase: "me da flojera", em: "aburrimiento", w: 1.3 },
-    { phrase: "me da pereza", em: "aburrimiento", w: 1.2 },
-    { phrase: "me da miedo", em: "miedo", w: 1.2 },
-    { phrase: "no tengo ganas de", em: "aburrimiento", w: 1.3 },
-
-    { phrase: "ganas de llorar", em: "tristeza", w: 1.4 },
-    { phrase: "tuve una discus", em: "enojo", w: 1.2 },
-    { phrase: "siento frustracion", em: "enojo", w: 1.2 },
-    { phrase: "lo amo", em: "amor", w: 1.4 },
-    { phrase: "te amo", em: "amor", w: 1.4 },
-    { phrase: "me encanta", em: "amor", w: 1.1 }
+  const contexto = [
+    {
+      reg: /no tengo ganas|no quiero hacer nada|sin ganas de nada|todo me cuesta/,
+      emo: "tristeza",
+      intensidad: "alta"
+    },
+    {
+      reg: /me da flojera|que flojera|ufff que aburrido|no tengo nada que hacer/,
+      emo: "aburrimiento",
+      intensidad: "alta"
+    },
+    {
+      reg: /no puedo concentrarme|no dejo de pensar|mi cabeza no para|no paro de pensar/,
+      emo: "ansiedad",
+      intensidad: "alta"
+    },
+    {
+      reg: /me siento vaci(a)?|me siento apagado|me siento apagada|estoy de bajon|estoy de bajón/,
+      emo: "tristeza",
+      intensidad: "moderada"
+    },
+    {
+      reg: /me late rapido el corazon|me late rápido el corazon|siento mariposas|me siento nervios/,
+      emo: "ansiedad",
+      intensidad: "moderada"
+    },
+    {
+      reg: /ganas de llorar|quiero llorar|me dan ganas de llorar|no paro de llorar/,
+      emo: "tristeza",
+      intensidad: "alta"
+    },
+    {
+      reg: /quiero estar sola|quiero estar solo|necesito un tiempo para mi|no quiero ver a nadie/,
+      emo: "tristeza",
+      intensidad: "alta"
+    },
+    {
+      reg: /estoy muy enojad[oa]|no lo soporto|que rabia|ya me harte|ya me hart/,
+      emo: "enojo",
+      intensidad: "alta"
+    }
   ];
 
-  const negators = new Set(["no","ni","sin","apenas"]);
-  const intensifiers = new Set(["muy","demasiado","super","re","mega","bastante","tan","muchisimo","muchísimo"]);
-  const attenuators = new Set(["poco","poquito","algo","medianamente","ligero","apenas","un","un poco"]);
+  /* ==================== combinacionesMasivas (keys ALFABÉTICAS) ==================== */
 
-  const SUFIJOS = ["","s","es","o","a","os","as","mente","ar","ando","ado","e","é","aste","aba","ado","ido","ando","iendo"];
+  const combinacionesMasivas = {
+    // aburrimiento + alegria
+    "aburrimiento+alegria":
+      "Si estás alegre pero aburrida o aburrido, prueba algo distinto a tu rutina: un juego corto, un reto sencillo, cocinar algo pequeño o buscar un video de algo nuevo que te llame la atención.",
+    // aburrimiento + amor
+    "aburrimiento+amor":
+      "Si estás aburrida(o) pero con amor presente, puedes proponer una actividad distinta con esa persona: ver algo nuevo juntos, cocinar algo simple o jugar un juego corto.",
+    // aburrimiento + ansiedad
+    "aburrimiento+ansiedad":
+      "Si estás aburrida(o) y ansiosa(o), hacer una tarea corta y concreta como regar una planta, ordenar un cajón o limpiar una parte pequeña de tu espacio puede ayudarte a centrarte y bajar un poco la inquietud.",
+    // aburrimiento + enojo
+    "aburrimiento+enojo":
+      "Si estás enojada(o) y aburrida(o), una forma sana de sacar energía es hacer algo físico como subir y bajar escaleras, hacer sentadillas o estiramientos fuertes por unos minutos.",
+    // aburrimiento + miedo
+    "aburrimiento+miedo":
+      "Si estás aburrida(o) y con miedo, una actividad repetitiva sencilla (ordenar una parte de tu cuarto, acomodar libros, limpiar apps del celular) puede ayudarte a calmar la mente.",
+    // aburrimiento + sorpresa
+    "aburrimiento+sorpresa":
+      "Si estás sorprendida(o) pero aburrida(o), usa esa curiosidad para aprender algo nuevo: buscar un dato interesante, ver un video corto educativo o probar una actividad que nunca has intentado.",
+    // aburrimiento + tristeza
+    "aburrimiento+tristeza":
+      "Si estás triste y aburrida(o), una actividad creativa muy sencilla como dibujar garabatos, colorear, hacer un pequeño collage o probar un DIY fácil puede ayudarte a distraerte un poco.",
 
-  function matchesRoot(token, root, sent = "") {
-    if (exceptions[root]?.includes(token)) return false;
-    if (root === "bien" && !sent.includes("me siento bien")) return false;
-    if (root === "tranquil" && !sent.includes("me siento tranquil")) return false;
+    // alegria + amor
+    "alegria+amor":
+      "Si sientes alegría y amor al mismo tiempo, es un buen momento para compartirlo: manda un mensaje, haz una llamada o un detalle simple para alguien que quieres. Es rápido y suele sentirse muy bien.",
+    // alegria + ansiedad
+    "alegria+ansiedad":
+      "Si estás feliz pero sientes ansiedad, puedes disfrutar lo que te hace sentir bien y luego tomarte unos minutos para respirar profundo, estirarte o escuchar tu canción favorita para relajarte un poco.",
+    // alegria + enojo
+    "alegria+enojo":
+      "Si estás contenta o contento pero con algo de enojo, podrías mover tu cuerpo con un poco de ejercicio suave, caminar o bailar una canción. Así liberas tensión sin perder la parte positiva del momento.",
+    // alegria + miedo
+    "alegria+miedo":
+      "Si estás alegre pero también sientes miedo, ve paso a paso. Hablar con alguien de confianza sobre lo que te asusta y hacer una actividad pequeña que sí te haga sentir seguro puede ayudarte a seguir disfrutando.",
+    // alegria + sorpresa
+    "alegria+sorpresa":
+      "Si estás sorprendida o sorprendido y feliz, puedes aprovechar para guardar ese recuerdo: tomar una foto, escribir dos líneas en tu diario o grabar una nota de voz para ti del futuro.",
+    // alegria + tristeza
+    "alegria+tristeza":
+      "Si estás alegre pero un poco triste, es normal mezclar emociones. Puedes escribir lo que te alegra y lo que te duele, y después hacer algo sencillo que te guste para equilibrar.",
 
-    if (token === root) return true;
+    // amor + ansiedad
+    "amor+ansiedad":
+      "Si sientes amor y ansiedad, hablar con calma sobre lo que te preocupa y escuchar a la otra persona puede bajar muchas dudas y darte más tranquilidad.",
+    // amor + miedo
+    "amor+miedo":
+      "Si sientes miedo pero también amor, puedes apoyarte en alguien importante para ti. Un mensaje sincero, una llamada o pedir un abrazo puede darte un poco más de seguridad y calma.",
+    // amor + sorpresa
+    "amor+sorpresa":
+      "Si sientes amor y sorpresa, puedes compartirlo: manda un audio contando lo que pasó o un mensaje lindo. Eso refuerza el vínculo y te hace sentir acompañado(a).",
+    // amor + tristeza
+    "amor+tristeza":
+      "Si estás triste pero también sientes amor, puedes apoyarte en eso: mandar un mensaje sincero a alguien que quieres, ver fotos que te traigan buenos recuerdos o abrazar algo que te dé calma.",
 
-    for (const suf of SUFIJOS) {
-      if (token === root + suf) return true;
-    }
-    if (token.startsWith(root) && token.length - root.length <= 6) return true;
+    // ansiedad + enojo
+    "ansiedad+enojo":
+      "Si estás enojada(o) y ansiosa(o), prueba respirar profundo contando hasta cuatro al inhalar y exhalar, varias veces. Después, escribe qué cosas sí están en tus manos y cuáles no.",
+    // ansiedad + miedo
+    "ansiedad+miedo":
+      "Si estás con miedo y ansiedad, intenta un ejercicio de atención al presente: nombra mentalmente cinco cosas que ves, cuatro que puedes tocar, tres que escuchas, dos que puedes oler y una que puedes saborear.",
+    // ansiedad + sorpresa
+    "ansiedad+sorpresa":
+      "Si estás sorprendida(o) y ansiosa(o), contar en voz baja (o escribir) lo que pasó como si se lo contaras a alguien te ayuda a ordenar tus pensamientos.",
+    // ansiedad + tristeza
+    "ansiedad+tristeza":
+      "Si estás triste y ansiosa(o), levantarte, estirarte y caminar unos minutos, aunque sea dentro de tu casa, puede activar tu cuerpo. Combínalo con respiraciones profundas para bajar un poco la tensión.",
 
-    return false;
-  }
+    // enojo + miedo
+    "enojo+miedo":
+      "Si estás con enojo y miedo al mismo tiempo, intenta primero moverte (caminar, sacudir brazos, hacer estiramientos) y después hablar con alguien sobre lo que te preocupa para no quedarte con todo dentro.",
+    // enojo + sorpresa
+    "enojo+sorpresa":
+      "Si estás sorprendida(o) y enojada(o), quizá algo te tomó desprevenido. Tómate unos minutos para pensar qué fue lo que más te molestó y luego decide cómo quieres expresarlo de una forma que no te haga daño.",
+    // enojo + tristeza
+    "enojo+tristeza":
+      "Si estás triste y enojada(o), puede ayudar escribir en una hoja todo lo que sientes y luego romperla o golpear una almohada para sacar esa energía sin lastimarte a ti ni a nadie.",
 
-  function emphasisBoost(raw) {
-    let b = 0;
-    if (/[A-ZÁÉÍÓÚÜÑ]{5,}/.test(raw)) b += 0.2;
-    if (/!{2,}/.test(raw)) b += 0.2;
-    if (/(.)\1{2,}/.test(normalizeBase(raw))) b += 0.2;
-    return b;
-  }
+    // miedo + sorpresa
+    "miedo+sorpresa":
+      "Si estás con miedo y sorpresa, recuerda que es normal sentirse así cuando algo no se esperaba. Puedes anotar qué pasó y qué necesitas ahora para sentirte un poco más seguro.",
+    // miedo + tristeza  (⚠️ la que tú pediste)
+    "miedo+tristeza":
+      "Si estás triste y con miedo, ponte cómodo con una cobija y mira un video relajante, escucha música tranquila o simplemente respira profundo un par de minutos.",
+
+    // sorpresa + tristeza
+    "sorpresa+tristeza":
+      "Si estás triste y a la vez sorprendida(o) por algo que pasó, ordenar tu espacio (escritorio, cama, una mesa) puede darte una pequeña sensación de control mientras procesas lo que sientes."
+  };
 
   /* ==================== Analizador ==================== */
-  function analizarEmocion(textoOriginal) {
-    const raw = textoOriginal || "";
-    const text = normalize(raw);
-    if (!text) return "No se detectaron emociones claras en el texto.";
 
-    const sentences = text
-      .split(/(?<=[\.\?\!])\s+|(?:\s+y\s+|\s+pero\s+|\s+aunque\s+|\s+sin\s+embargo\s+|\s+ademas\s+)/)
-      .map(s => s.trim())
-      .filter(Boolean);
-
-    const score = {
-      alegria: 0, tristeza: 0, enojo: 0, miedo: 0,
-      amor: 0, sorpresa: 0, aburrimiento: 0, ansiedad: 0
-    };
-
-    const boost = emphasisBoost(raw);
-
-    for (const sent of sentences) {
-      const tokens = sent.split(/\s+/).filter(Boolean);
-
-      for (const p of patterns) {
-        if (sent.includes(p.phrase)) score[p.em] += p.w;
+  const reglasRegex = {};
+  for (const emo in reglasPalabras) {
+    reglasRegex[emo] = reglasPalabras[emo].map((exp) => {
+      const e = normalize(exp);
+      if (e.includes(" ")) {
+        const safe = e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return new RegExp(safe, "i");
+      } else {
+        const safe = e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return new RegExp(safe + "\\w*", "i");
       }
+    });
+  }
 
-      for (let i = 0; i < tokens.length; i++) {
-        const tk = tokens[i];
-        const prev = tokens.slice(Math.max(i - 2, 0), i);
+  function analizarEmocion(textoOriginal) {
+    const texto = textoOriginal || "";
+    const t = normalize(texto);
+    if (!t) {
+      return {
+        mensaje: "No se detectaron emociones claras.",
+        emociones: [],
+        intensidad: {}
+      };
+    }
 
-        const hasNeg = prev.some(t => negators.has(t));
-        const hasInt = prev.some(t => intensifiers.has(t));
-        const hasAtt = prev.some(t => attenuators.has(t));
+    const emocionesDetectadas = new Set();
+    const intensidad = {};
 
-        for (const em in lex) {
-          for (const root of lex[em]) {
-            if (root.includes(" ")) {
-              if (sent.includes(root)) {
-                let w = 1 + boost;
-                if (["tristeza","ansiedad","enojo"].includes(em)) w += 0.2;
-                if (hasNeg) w = 0;
-                if (w > 0) score[em] += w;
-              }
-              continue;
-            }
+    // Contextos
+    contexto.forEach((c) => {
+      if (c.reg.test(t)) {
+        emocionesDetectadas.add(c.emo);
+        intensidad[c.emo] = c.intensidad;
+      }
+    });
 
-            if (!matchesRoot(tk, root, sent)) continue;
-
-            let w = 1;
-            if (root === "tranquil") w = 0.5;
-            if (root === "bien") w = 0.6;
-            if (["tristeza","ansiedad","enojo"].includes(em)) w += 0.2;
-
-            if (hasNeg) w = 0;
-            if (hasInt) w += 0.4;
-            if (hasAtt) w -= 0.3;
-
-            w += boost;
-            if (w > 0) score[em] += w;
-
-            break;
-          }
+    // Palabras / raíces
+    for (const emo in reglasRegex) {
+      const lista = reglasRegex[emo];
+      for (const reg of lista) {
+        if (reg.test(t)) {
+          emocionesDetectadas.add(emo);
+          if (!intensidad[emo]) intensidad[emo] = "moderada";
+          break;
         }
       }
     }
 
-    // Polaridad extra (Sentiment)
+    // Polaridad con Sentiment (si existe)
     try {
-      const sentiment = new Sentiment();
-      const pol = sentiment.analyze(raw).score;
-      if (pol > 0) score.alegria += 0.6;
-      else if (pol < 0) score.tristeza += 0.6;
+      if (typeof Sentiment !== "undefined") {
+        const sentiment = new Sentiment();
+        const score = sentiment.analyze(texto).score;
+
+        if (score > 2) {
+          emocionesDetectadas.add("alegria");
+          intensidad["alegria"] = "alta";
+        } else if (score > 0) {
+          if (!intensidad["alegria"]) {
+            emocionesDetectadas.add("alegria");
+            intensidad["alegria"] = "moderada";
+          }
+        } else if (score < -2) {
+          emocionesDetectadas.add("tristeza");
+          intensidad["tristeza"] = "alta";
+        } else if (score < 0) {
+          if (!intensidad["tristeza"]) {
+            emocionesDetectadas.add("tristeza");
+            intensidad["tristeza"] = "moderada";
+          }
+        }
+      }
     } catch (_) {}
 
-    const entries = Object.entries(score);
-    const maxVal = Math.max(...entries.map(e => e[1]));
-    const TH = 0.7;
-    const REL = 0.5;
+    if (emocionesDetectadas.size === 0) {
+      return {
+        mensaje: "No se detectaron emociones claras.",
+        emociones: [],
+        intensidad: {}
+      };
+    }
 
-    if (maxVal < TH) return "No se detectaron emociones claras en el texto.";
+    const arr = Array.from(emocionesDetectadas);
+    return {
+      mensaje: "Emociones detectadas: " + arr.join(", "),
+      emociones: arr,
+      intensidad
+    };
+  }
 
-    const picked = entries
-      .filter(([, v]) => v >= TH || v >= maxVal * REL || v >= 0.9)
-      .map(e => e[0]);
+  /* ==================== Recomendación avanzada ==================== */
 
-    return "Emociones detectadas: " + picked.join(", ");
+  function generarRecomendacionAvanzada(emociones, intensidad) {
+    if (!emociones || emociones.length === 0) {
+      return "No hay suficientes datos para dar una recomendación.";
+    }
+
+    const combo = [...emociones].sort().join("+");
+
+    if (combinacionesMasivas[combo]) {
+      return combinacionesMasivas[combo];
+    }
+
+    const recomendaciones = {
+      alegria:
+        "Estás en un momento de alegría. Disfruta esa energía: puedes hacer algo que te guste mucho, compartirla con alguien o iniciar un pequeño proyecto que te motive.",
+      tristeza:
+        "Se nota que no es un momento fácil. Puede ayudarte escribir lo que sientes, hablar con alguien de confianza y darte un pequeño espacio para descansar.",
+      enojo:
+        "Hay enojo presente. Antes de reaccionar, respira profundo varias veces, muévete un poco (camina o estírate) y luego decide cómo quieres expresar lo que sientes.",
+      miedo:
+        "Sientes miedo o inseguridad. Pensar qué cosas sí están bajo tu control y hablar con alguien de confianza puede ayudarte a sentirte más seguro.",
+      amor:
+        "Estás sintiendo amor o afecto. Cuidar ese vínculo, expresar lo que sientes y también cuidarte a ti mismo es una buena forma de aprovechar esta emoción.",
+      sorpresa:
+        "Hay sorpresa en lo que estás viviendo. Puedes tomarlo como una oportunidad para aprender algo nuevo o simplemente guardar el recuerdo de este momento.",
+      aburrimiento:
+        "Hay señales de aburrimiento o desinterés. Probar una actividad distinta, aunque sea pequeña, puede cambiar un poco cómo te sientes.",
+      ansiedad:
+        "Se nota tensión o ansiedad. Realizar respiraciones profundas, hacer una pausa breve y dividir tus pendientes en pasos pequeños puede ayudar."
+    };
+
+    if (emociones.length === 1) {
+      const emo = emociones[0];
+      return (
+        recomendaciones[emo] ||
+        "Se detecta una emoción predominante. Date un momento para escucharte y cuidarte."
+      );
+    }
+
+    const principal = emociones[0];
+    return (
+      recomendaciones[principal] ||
+      "Se detecta una combinación de emociones. Escucha lo que sientes y busca una acción pequeña para cuidarte."
+    );
   }
 
   /* ==================== Guardado / historial ==================== */
+
   function guardarPensamiento() {
     const texto = thoughtInput.value.trim();
     if (!texto) {
@@ -329,12 +375,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const resultado = analizarEmocion(texto);
-    emotionResult.textContent = resultado;
+    const analisis = analizarEmocion(texto);
+    emotionResult.textContent = analisis.mensaje;
 
     const pensamiento = {
       texto,
-      resultado,
+      resultado: analisis.mensaje,
+      emociones: analisis.emociones,
+      intensidad: analisis.intensidad,
       fecha: new Date().toLocaleString()
     };
 
@@ -344,8 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     mostrarPensamientos();
     actualizarGrafica();
-
-    // limpiar textarea al guardar
     thoughtInput.value = "";
   }
 
@@ -353,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pensamientos = JSON.parse(localStorage.getItem("pensamientos")) || [];
     thoughtList.innerHTML = "";
 
-    pensamientos.forEach(p => {
+    pensamientos.forEach((p) => {
       const li = document.createElement("li");
       li.innerHTML = `<strong>${p.fecha}</strong><br>${p.texto}<br><em>${p.resultado}</em>`;
       thoughtList.prepend(li);
@@ -361,12 +407,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==================== Gráfica + leyenda ==================== */
+
   let emotionChart;
-  const BAR_LABELS = ["Alegría","Tristeza","Enojo","Miedo","Amor","Sorpresa","Aburrimiento","Ansiedad"];
-  const BAR_KEYS   = ["alegria","tristeza","enojo","miedo","amor","sorpresa","aburrimiento","ansiedad"];
-  const BAR_COLORS = ["#FFD93D","#6BCB77","#FF6B6B","#4D96FF","#FFB5E8","#C9BBCF","#A0AEC0","#90CDF4"];
+  const BAR_LABELS = [
+    "Alegría",
+    "Tristeza",
+    "Enojo",
+    "Miedo",
+    "Amor",
+    "Sorpresa",
+    "Aburrimiento",
+    "Ansiedad"
+  ];
+  const BAR_KEYS = [
+    "alegria",
+    "tristeza",
+    "enojo",
+    "miedo",
+    "amor",
+    "sorpresa",
+    "aburrimiento",
+    "ansiedad"
+  ];
+  const BAR_COLORS = [
+    "#FFD93D",
+    "#6BCB77",
+    "#FF6B6B",
+    "#4D96FF",
+    "#FFB5E8",
+    "#C9BBCF",
+    "#A0AEC0",
+    "#90CDF4"
+  ];
 
   function renderColorLegend() {
+    if (!colorLegend) return;
     colorLegend.innerHTML = "";
     BAR_LABELS.forEach((lbl, i) => {
       const item = document.createElement("span");
@@ -388,12 +463,14 @@ document.addEventListener("DOMContentLoaded", () => {
       type: "bar",
       data: {
         labels: BAR_LABELS,
-        datasets: [{
-          label: "Emociones detectadas",
-          data: Array(BAR_LABELS.length).fill(0),
-          backgroundColor: BAR_COLORS,
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            label: "Emociones detectadas",
+            data: Array(BAR_LABELS.length).fill(0),
+            backgroundColor: BAR_COLORS,
+            borderWidth: 1
+          }
+        ]
       },
       options: {
         scales: {
@@ -407,206 +484,91 @@ document.addEventListener("DOMContentLoaded", () => {
     renderColorLegend();
   }
 
-  /* ==================== Mensajes del cuadro verde ==================== */
-  const BASE_MESSAGES = {
-    alegria: "Se nota un estado de alegría y energía positiva.",
-    tristeza: "Se observa una sensación de tristeza.",
-    enojo: "Se percibe enojo o molestia.",
-    miedo: "Se nota cierto temor o inseguridad.",
-    amor: "Se percibe un sentimiento de afecto.",
-    sorpresa: "Se observa una reacción inesperada o sorprendente.",
-    aburrimiento: "Hay señales de desánimo o falta de interés.",
-    ansiedad: "Se nota preocupación o tensión interna."
-  };
+  /* ==================== Actualizar gráfica + recuadro verde ==================== */
 
-  // claves ordenadas alfabéticamente: aburrimiento, alegria, amor, ansiedad, enojo, miedo, sorpresa, tristeza
-  const COMBINED_MESSAGES = {
-    "ansiedad-tristeza": "Parece que estás sintiendo tristeza acompañada de preocupación.",
-    "miedo-tristeza": "Se nota una mezcla de tristeza con cierto temor.",
-    "enojo-tristeza": "Hay una combinación fuerte entre tristeza y enojo.",
-    "aburrimiento-tristeza": "Se percibe un estado apagado entre tristeza y desánimo.",
-
-    "ansiedad-enojo": "Se siente tensión emocional entre enojo y preocupación.",
-    "enojo-miedo": "Hay frustración mezclada con un poco de miedo.",
-    "aburrimiento-enojo": "Parece haber irritación combinada con falta de interés.",
-
-    "ansiedad-miedo": "Se nota una mezcla intensa entre ansiedad y temor.",
-    "aburrimiento-ansiedad": "Hay inquietud emocional junto con falta de motivación.",
-
-    "aburrimiento-miedo": "Se percibe temor acompañado de desgano.",
-
-    "alegria-ansiedad": "Hay una mezcla curiosa de entusiasmo con algo de inquietud.",
-    "alegria-tristeza": "Se notan emociones encontradas entre alegría y tristeza.",
-    "alegria-miedo": "Hay alegría presente, pero acompañada de cierto temor.",
-    "alegria-enojo": "Se percibe energía elevada entre alegría y molestia.",
-    "aburrimiento-alegria": "Hay un contraste emocional entre motivación y desgano.",
-
-    "amor-ansiedad": "Se siente cariño mezclado con un poco de preocupación.",
-    "amor-tristeza": "Hay afecto presente, pero acompañado de cierta tristeza.",
-    "amor-miedo": "Se nota cariño acompañado de temor o inseguridad.",
-    "amor-enojo": "Hay afecto, aunque mezclado con molestia.",
-    "aburrimiento-amor": "Se percibe cariño junto con un estado de desánimo.",
-
-    "alegria-amor": "Hay una combinación cálida de alegría y afecto.",
-    "alegria-sorpresa": "Se siente una mezcla emocionante entre sorpresa y felicidad.",
-    "amor-sorpresa": "Hay una sorpresa acompañada de un sentimiento de cariño.",
-
-    "miedo-sorpresa": "Se percibe una sorpresa acompañada de temor.",
-    "ansiedad-sorpresa": "Hay sorpresa mezclada con inquietud.",
-    "sorpresa-tristeza": "Se nota sorpresa con un toque de tristeza.",
-    "enojo-sorpresa": "Hay una reacción entre molestia y sorpresa."
-  };
-
-  function comboKey(a, b) {
-    return [a, b].sort().join("-");
-  }
-
-  /* ==================== Recomendaciones específicas (lista) ==================== */
-  const RECS = {
-    tristeza: [
-      "Camina 10–15 min al aire libre.",
-      "Escribe 5 frases sobre lo que sientes (journaling).",
-      "Llama o manda mensaje a alguien de confianza.",
-      "Haz una lista de gratitud con 3 cosas de hoy.",
-      "Escucha música calmada 10 min con respiración ligera."
-    ],
-    aburrimiento: {
-      actividades: [
-        "Dibujo de una sola línea",
-        "Crea una playlist temática nueva",
-        "Fotografía: 10 fotos con un mismo color",
-        "Cocina una receta que no hayas probado",
-        "Arma un rompecabezas pequeño o cubo Rubik",
-        "Aprende un truco con cartas",
-        "Explora un museo virtual",
-        "Escribe 10 ideas locas para un proyecto",
-        "Jardinería en maceta",
-        "Juegos de mesa rápidos con familia/amigos"
-      ],
-      deportes: [
-        "Ciclismo","Natación","Fútbol","Básquetbol","Voleibol",
-        "Senderismo","Patinaje/Skate","Yoga","Pilates",
-        "Artes marciales","Box recreativo","Baile"
-      ]
-    },
-    ansiedad: [
-      "Respiración 4–7–8 durante 3 minutos.",
-      "Anota tus preocupaciones y 1 acción pequeña.",
-      "Relajación muscular progresiva 5–7 min.",
-      "Camina 15 min con música tranquila.",
-      "Evita cafeína/pantalla 1 h antes de dormir."
-    ],
-    enojo: [
-      "Respiración en caja 4-4-4-4 por 2–3 min.",
-      "Escribe qué te molestó y qué sí controlas.",
-      "Saltos/sentadillas 5–10 min para descargar.",
-      "Pausa sensorial: agua fría en manos/cara.",
-      "Camina 10–15 min para bajar activación."
-    ],
-    miedo: [
-      "Respiración 4–4–4–4 (caja) por 3 minutos para estabilizar.",
-      "Divide tu preocupación en 3 pasos pequeños y haz el primero hoy.",
-      "Ensayo mental: visualiza durante 2–3 min un resultado aceptable.",
-      "Escribe 3 evidencias a favor y 3 en contra de tu miedo.",
-      "Camina 10–15 min al aire libre mientras repites una frase de calma."
-    ]
-  };
-
-  function renderRecommendations(dominantEmotion) {
-    const showable = ["tristeza","aburrimiento","ansiedad","enojo","miedo"];
-
-    [...recSection.querySelectorAll("p, ul:not(#recList)")].forEach(n => n.remove());
-    recList.innerHTML = "";
-
-    if (!showable.includes(dominantEmotion)) {
-      recSection.hidden = true;
-      return;
-    }
-
-    if (dominantEmotion === "aburrimiento") {
-      RECS.aburrimiento.actividades.slice(0, 5).forEach(t => {
-        const li = document.createElement("li");
-        li.textContent = t;
-        recList.appendChild(li);
-      });
-
-      const p = document.createElement("p");
-      p.innerHTML = "<strong>Te recomendamos realizar alguno de los siguientes deportes:</strong>";
-      recSection.appendChild(p);
-
-      const ul = document.createElement("ul");
-      RECS.aburrimiento.deportes.slice(0, 6).forEach(d => {
-        const li = document.createElement("li");
-        li.textContent = d;
-        ul.appendChild(li);
-      });
-      recSection.appendChild(ul);
-
-      recSection.hidden = false;
-      return;
-    }
-
-    const ideas = RECS[dominantEmotion] || [];
-    recList.innerHTML = ideas.slice(0, 5).map(t => `<li>${t}</li>`).join("");
-    recSection.hidden = ideas.length === 0;
-  }
-
-  /* ==================== Actualizar gráfica + cuadro verde ==================== */
   function actualizarGrafica() {
     if (!emotionChart) return;
 
     const pensamientos = JSON.parse(localStorage.getItem("pensamientos")) || [];
     const conteos = {
-      alegria:0, tristeza:0, enojo:0, miedo:0,
-      amor:0, sorpresa:0, aburrimiento:0, ansiedad:0
+      alegria: 0,
+      tristeza: 0,
+      enojo: 0,
+      miedo: 0,
+      amor: 0,
+      sorpresa: 0,
+      aburrimiento: 0,
+      ansiedad: 0
     };
 
-    const strip = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+    const strip = (s) =>
+      (s || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
 
-    pensamientos.forEach(p => {
-      const r = strip(p.resultado || "");
-      for (const k in conteos) {
-        if (r.includes(k)) conteos[k]++;
+    pensamientos.forEach((p) => {
+      if (Array.isArray(p.emociones)) {
+        p.emociones.forEach((emo) => {
+          if (conteos.hasOwnProperty(emo)) {
+            conteos[emo]++;
+          }
+        });
+      } else if (p.resultado) {
+        const r = strip(p.resultado);
+        for (const k in conteos) {
+          if (r.includes(k)) conteos[k]++;
+        }
       }
     });
 
-    emotionChart.data.datasets[0].data = BAR_KEYS.map(k => conteos[k]);
+    emotionChart.data.datasets[0].data = BAR_KEYS.map((k) => conteos[k]);
     emotionChart.update();
 
-    const total = Object.values(conteos).reduce((a,b)=>a+b,0);
-
-    [...recSection.querySelectorAll("p, ul:not(#recList)")].forEach(n => n.remove());
+    const total = Object.values(conteos).reduce((a, b) => a + b, 0);
 
     if (total === 0) {
-      recomendacionBox.textContent = "Aún no hay suficientes datos para dar una recomendación.";
-      recSection.hidden = true;
-      recList.innerHTML = "";
+      recomendacionBox.textContent =
+        "Aún no hay suficientes datos para dar una recomendación.";
+      if (recSection) {
+        recSection.hidden = true; // 👈 ya no mostramos nada debajo
+      }
+      if (recList) recList.innerHTML = "";
       return;
     }
 
-    const ordered = Object.entries(conteos).sort((a,b)=>b[1]-a[1]);
-    const [e1, v1] = ordered[0];
-    const [e2, v2] = ordered[1] || [null, 0];
+    const ordenadas = Object.entries(conteos).sort((a, b) => b[1] - a[1]);
+    const [e1, v1] = ordenadas[0];
+    const [e2, v2] = ordenadas[1] || [null, 0];
 
-    const TWO_THRESHOLD = 0.6;
-    const secondHigh = v2 > 0 && v2 >= v1 * TWO_THRESHOLD;
-
-    let msg;
-    if (secondHigh && e2) {
-      const key = comboKey(e1, e2);
-      msg = COMBINED_MESSAGES[key] || BASE_MESSAGES[e1];
-    } else {
-      msg = BASE_MESSAGES[e1];
+    const emocionesTop = [];
+    if (v1 > 0) emocionesTop.push(e1);
+    if (e2 && v2 > 0 && v2 >= v1 * 0.6) {
+      emocionesTop.push(e2);
     }
 
-    recomendacionBox.textContent = msg;
-    renderRecommendations(e1);
+    const intensidad = {};
+    if (emocionesTop.length === 1) {
+      intensidad[emocionesTop[0]] = "alta";
+    } else if (emocionesTop.length === 2) {
+      intensidad[emocionesTop[0]] = "alta";
+      intensidad[emocionesTop[1]] = "moderada";
+    }
+
+    const textoRec = generarRecomendacionAvanzada(emocionesTop, intensidad);
+    recomendacionBox.textContent = textoRec;
+
+    // 👇 Ocultamos siempre la sección de recomendaciones extras
+    if (recSection) {
+      recSection.hidden = true;
+    }
+    if (recList) recList.innerHTML = "";
   }
 
   /* ==================== Eventos ==================== */
+
   saveBtn.addEventListener("click", guardarPensamiento);
 
-  // Guardar con Enter (Enter = guardar, Shift+Enter = nuevo renglón)
   thoughtInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -619,6 +581,8 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("pensamientos");
       thoughtList.innerHTML = "";
       emotionResult.textContent = "";
+      recomendacionBox.textContent =
+        "Aún no hay suficientes datos para dar una recomendación.";
       actualizarGrafica();
     }
   });
