@@ -8,20 +8,23 @@
 </head>
 <body>
 
-  <!-- NUEVO: Contenedor flex que NO altera tus estilos -->
+  <!-- Contenedor flex que NO altera tus estilos -->
   <div class="layout">
 
-    <!-- IZQUIERDA: Tu diario tal cual estaba -->
+    <!-- IZQUIERDA: Tu diario -->
     <div class="col-diario">
       <div class="container">
         <h1>📝 Diario de Emociones</h1>
 
         <textarea id="thoughtInput" placeholder="Escribe aquí tus pensamientos..."></textarea>
+        
+        <!-- Botones de acción -->
         <button id="saveBtn">Guardar pensamiento</button>
+        <button id="clearBtn" class="clear-btn">Limpiar todo</button>
+
         <div id="emotionResult"></div>
 
         <h2>Historial</h2>
-        <!-- SOLO se agrega la clase scroll-historial -->
         <ul id="thoughtList" class="scroll-historial"></ul>
 
         <div class="resumen-diario" id="resumenDiario">
@@ -30,7 +33,7 @@
       </div>
     </div>
 
-    <!-- DERECHA: Tu gráfica tal cual estaba -->
+    <!-- DERECHA: Gráfica -->
     <div class="col-grafica">
       <div class="chart-container">
         <h3>Gráfica de emociones</h3>

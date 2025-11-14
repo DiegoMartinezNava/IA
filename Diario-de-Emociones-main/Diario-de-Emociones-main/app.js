@@ -99,11 +99,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Revisar cada emoción del diccionario mega extendido
-    for (let emo in reglas) {
-      for (let exp of reglas[emo]) {
-        if (exp.test(t)) {
+    for (let emo in reglasPalabras) {
+      for (let exp of reglasPalabras[emo]) {
+        if (t.includes(exp)) { // usamos includes porque las expresiones no son RegExp
           emocionesDetectadas.add(emo);
-          // Solo asigna moderada si no existe intensidad previa
           if (!intensidad[emo]) intensidad[emo] = "moderada";
           break;
         }
