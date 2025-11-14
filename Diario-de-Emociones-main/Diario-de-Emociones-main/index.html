@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diario de Emociones</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NUEVO: Contenedor flex que NO altera tus estilos -->
+  <div class="layout">
+
+    <!-- IZQUIERDA: Tu diario tal cual estaba -->
+    <div class="col-diario">
+      <div class="container">
+        <h1>📝 Diario de Emociones</h1>
+
+        <textarea id="thoughtInput" placeholder="Escribe aquí tus pensamientos..."></textarea>
+        <button id="saveBtn">Guardar pensamiento</button>
+        <div id="emotionResult"></div>
+
+        <h2>Historial</h2>
+        <!-- SOLO se agrega la clase scroll-historial -->
+        <ul id="thoughtList" class="scroll-historial"></ul>
+
+        <div class="resumen-diario" id="resumenDiario">
+          Aquí aparecerá tu resumen diario de emociones.
+        </div>
+      </div>
+    </div>
+
+    <!-- DERECHA: Tu gráfica tal cual estaba -->
+    <div class="col-grafica">
+      <div class="chart-container">
+        <h3>Gráfica de emociones</h3>
+        <canvas id="emotionChart" width="300" height="180"></canvas>
+        <div id="recommendation" class="recommendation-box"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sentiment@5.1.1/build/sentiment.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
