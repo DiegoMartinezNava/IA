@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Diario de Emociones</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <main class="layout">
+    <!-- Tarjeta izquierda -->
+    <section class="container card">
+      <h1>📝 Diario de Emociones</h1>
+      <textarea id="thoughtInput" placeholder="Escribe aquí tus pensamientos..."></textarea>
+
+      <div class="btn-row">
+        <button id="saveBtn">Guardar pensamiento</button>
+        <button id="clearBtn" class="clear-btn">🗑️ Limpiar historial</button>
+      </div>
+
+      <div id="emotionResult"></div>
+
+      <h2>Historial</h2>
+      <ul id="thoughtList"></ul>
+    </section>
+
+    <!-- Tarjeta derecha -->
+    <section class="chart-container card">
+      <h3>Emociones detectadas</h3>
+
+      <canvas id="emotionChart" width="300" height="180"></canvas>
+
+      <!-- NUEVO: leyenda de colores -->
+      <div id="colorLegend" class="color-legend" aria-label="Guía de colores de emociones"></div>
+
+      <!-- Mensaje general según la emoción más frecuente -->
+      <div id="recommendation" class="recommendation-box"></div>
+
+      <!-- Bloque de recomendaciones accionables -->
+      <section id="recSection" class="rec-section" hidden>
+        <h4>Recomendaciones</h4>
+        <ul id="recList"></ul>
+        <p class="rec-footnote">Si te sientes así varios días seguidos, conversar con alguien de confianza puede ayudar.</p>
+      </section>
+    </section>
+  </main>
+
+  <!-- Librerías -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sentiment@5.1.1/build/sentiment.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
