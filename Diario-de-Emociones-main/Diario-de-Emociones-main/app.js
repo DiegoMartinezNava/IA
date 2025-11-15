@@ -1,4 +1,4 @@
-// --- Inicialización de elementos del DOM ---
+// Aquí guardamos referencias a todos los elementos importantes de la página.
 document.addEventListener("DOMContentLoaded", () => {
   const thoughtInput = document.getElementById("thoughtInput");
   const saveBtn = document.getElementById("saveBtn");
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const chartCanvas = document.getElementById("emotionChart");
   const recomendacionBox = document.getElementById("recommendation");
 
-  // --- Diccionario extendido de palabras por emoción ---
+ // Contiene muchas palabras clave para detectar alegría, tristeza, enojo, miedo, amor, sorpresa, aburrimiento y ansiedad
   const reglasPalabras = {
     alegria: [
       "feliz", "content", "alegr", "emocion", "bien", "tranquil", "optimist", "agradecid", "anim",
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ]
   };
 
-  // --- Contextos extendidos para frases que afectan intensidad ---
+// Se usan expresiones regulares para capturar frases largas o combinaciones que aumentan la intensidad de la emoción
   const contexto = [
     { reg: /no tengo ganas|me da flojera|no quiero hacer nada|me siento sin ganas|me siento cansad(a)?|todo me cuesta/, emo: "tristeza", intensidad: "alta" },
     { reg: /no puedo concentrarme|no dejo de pensar|me siento nerviosa|me siento nervioso|me siento inquieta|mi cabeza no para/, emo: "ansiedad", intensidad: "alta" },
@@ -84,13 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
     { reg: /estoy sorprendid(a)?|no lo esperaba|vaya sorpresa|no me lo creo|qué inesperado|no lo vi venir|me tomó por sorpresa|no me lo esperaba/, emo: "sorpresa", intensidad: "moderada" }
   ];
 
-  // Función principal para analizar emociones del texto
+  // Devuelve un objeto con las emociones detectadas y su intensidad
   function analizarEmocion(texto) {
     const t = texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     let emocionesDetectadas = new Set();
     let intensidad = {};
 
-    // Revisar contexto primero (prioridad alta)
     contexto.forEach(c => {
       if (c.reg.test(t)) {
         emocionesDetectadas.add(c.emo);
@@ -98,10 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Revisar cada emoción del diccionario mega extendido
     for (let emo in reglasPalabras) {
       for (let exp of reglasPalabras[emo]) {
-        if (t.includes(exp)) { // usamos includes porque las expresiones no son RegExp
+        if (t.includes(exp)) {
           emocionesDetectadas.add(emo);
           if (!intensidad[emo]) intensidad[emo] = "moderada";
           break;
@@ -109,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Analizar sentimiento con Sentiment (si existe)
     if (typeof Sentiment !== "undefined") {
       const sentiment = new Sentiment();
       const score = sentiment.analyze(texto).score;
@@ -130,14 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // --- Función para generar recomendaciones según emociones ---
+  // Devuelve consejos o tips según la emoción o combinación de emociones
   function generarRecomendacionAvanzada(emociones, intensidad) {
     if (!emociones || emociones.length === 0) return "No hay suficientes datos para dar una recomendación.";
 
-    // Ordenar y unir emociones para formar la clave de combinación
     let combo = emociones.sort().join("+");
 
-    // Combinaciones más comunes
     const combinacionesMasivas = {
       "alegria+ansiedad": "Si estás feliz pero sientes ansiedad, respira hondo un par de minutos y luego ponte a ver un video gracioso o escuchar tu canción favorita para relajarte un poco.",
       "alegria+tristeza": "Si estás alegre pero un poco triste, pon música que te guste y haz algo pequeño como ordenar tu escritorio o sacar fotos bonitas. Te ayuda a sentir mejor ambas cosas.",
@@ -175,10 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
       "aburrimiento+ansiedad": "Si estás aburrida y ansiosa, haz el método 5-4-3-2-1 (mira, toca, escucha, huele, siente) y luego haz algo pequeño como regar una planta o limpiar un espacio. Te centra y relaja."
     };
 
-    // Si la combinación existe, devolver mensaje
     if (combinacionesMasivas[combo]) return combinacionesMasivas[combo];
 
-    // Si no, devolver mensaje por emoción individual
     const recomendaciones = {
       "alegria": "¡Qué bueno que estás feliz! Aprovecha esa energía: comparte tu entusiasmo, baila un poco, escucha tu canción favorita o empieza algo que te motive.",
       "tristeza": "Sé que no es fácil, respira profundo y escribe lo que sientes. Si quieres, habla con alguien de confianza o date un pequeño gusto que te haga sentir mejor.",
@@ -193,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return emociones.map(e => recomendaciones[e] || "").join(" ");
   }
 
-  // --- Inicialización de la gráfica con Chart.js ---
+  // Creamos la gráfica de barras donde se mostrarán las emociones detectadas
   let emotionChart;
   if (chartCanvas) {
     const ctx = chartCanvas.getContext("2d");
@@ -214,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "#A0AEC0", // Aburrimiento
             "#FFD6A5"  // Ansiedad
           ],
-          borderRadius: 8,  // esquinas redondeadas
+          borderRadius: 8,
           borderWidth: 0
         }]
       },
@@ -229,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Función para actualizar la gráfica según pensamientos guardados ---
+  // Revisa el localStorage y actualiza los datos de cada emoción
   function actualizarGrafica() {
     if (!emotionChart) return;
     const pensamientos = JSON.parse(localStorage.getItem("pensamientos")) || [];
@@ -248,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
     emotionChart.update();
   }
 
-  // --- Función para mostrar pensamientos en el historial ---
+  // Genera la lista de pensamientos con su fecha, emociones detectadas e intensidad
   function mostrarPensamientos() {
     const pensamientos = JSON.parse(localStorage.getItem("pensamientos")) || [];
     thoughtList.innerHTML = "";
@@ -256,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pensamientos.forEach(p => {
       let textoConEmociones = p.texto;
       p.emociones.forEach(e => {
-        const nivel = p.intensidad[e] || "moderada"; // mostrar intensidad
+        const nivel = p.intensidad[e] || "moderada";
         const regex = new RegExp(`\\b(${e})\\b`, "gi");
         textoConEmociones = textoConEmociones.replace(
           regex, 
@@ -272,17 +265,15 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       thoughtList.prepend(li);
 
-      // Animación flash al agregar
       li.classList.add("flash");
       setTimeout(() => li.classList.remove("flash"), 1000);
     });
   }
 
-  // --- Función para guardar un pensamiento ---
+  // Analiza, guarda en localStorage, actualiza la gráfica, el historial y recomendaciones
   function guardarPensamiento() {
     const texto = thoughtInput.value.trim();
     
-    // Validaciones extra
     if (!texto) { 
       alert("Por favor, escribe algo antes de guardar."); 
       return; 
@@ -314,15 +305,13 @@ document.addEventListener("DOMContentLoaded", () => {
     recomendacionBox.innerHTML = generarRecomendacionAvanzada(analisis.emociones, analisis.intensidad);
   }
 
-  // --- Eventos ---
+  // Guardar con clic o Enter, limpiar todo el historial
   saveBtn.addEventListener("click", guardarPensamiento);
 
-  // Guardar con Enter
   thoughtInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") guardarPensamiento();
   });
 
-  // Botón opcional para limpiar todo
   const clearBtn = document.getElementById("clearBtn");
   if (clearBtn) {
     clearBtn.addEventListener("click", () => {
@@ -335,7 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Inicializar historial y gráfica al cargar ---
+  // Inicializar historial y gráfica al cargar la página
   mostrarPensamientos();
   actualizarGrafica();
 

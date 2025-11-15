@@ -33,8 +33,8 @@ h1 {
    Estilizamos el área de escritura con bordes redondeados y foco resaltado.
 ======================= */
 textarea {
-  width: 95% !important; /* un poquito más angosto */
-  margin: 0 auto; /* centrado */
+  width: 95% !important;
+  margin: 0 auto;
   display: block;
   height: 130px;
   border-radius: 12px;
@@ -261,12 +261,10 @@ textarea, .recommendation-box, .chart-container, ul {
   background: #e2e8f0;
 }
 
-/* Espacio entre diario y gráfica */
 .layout {
-  gap: 60px; /* antes era 40, lo hacemos más amplio */
+  gap: 60px;
 }
 
-/* Evita que botones dentro de la gráfica se vean como los del diario */
 .chart-container button {
-  display: none; /* ese botón azul no debe existir */
+  display: none;
 }
