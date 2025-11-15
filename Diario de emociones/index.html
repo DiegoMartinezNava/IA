@@ -3,54 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Título del proyecto -->
   <title>Diario de Emociones</title>
+
+  <!-- Estilos principales -->
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+
+  <!-- Estructura principal de dos columnas -->
   <main class="layout">
-    <!-- Tarjeta izquierda -->
+
+    <!-- Tarjeta izquierda: área para escribir y ver historial -->
     <section class="container card">
+
+      <!-- Título principal del diario -->
       <h1>📝 Diario de Emociones</h1>
+
+      <!-- Área donde el usuario escribe sus pensamientos -->
       <textarea id="thoughtInput" placeholder="Escribe aquí tus pensamientos..."></textarea>
 
+      <!-- Botones de guardar y limpiar historial -->
       <div class="btn-row">
         <button id="saveBtn">Guardar pensamiento</button>
         <button id="clearBtn" class="clear-btn">🗑️ Limpiar historial</button>
       </div>
 
+      <!-- Mensaje donde se muestra la emoción detectada -->
       <div id="emotionResult"></div>
 
+      <!-- Título del historial -->
       <h2>Historial</h2>
-      <!-- El UL tendrá scroll interno -->
+
+      <!-- Lista donde se muestran los pensamientos guardados -->
       <ul id="thoughtList"></ul>
     </section>
 
-    <!-- Tarjeta derecha -->
+    <!-- Tarjeta derecha: gráfica, colores y recomendaciones -->
     <section class="chart-container card">
+
+      <!-- Título de la gráfica -->
       <h3>Emociones detectadas</h3>
 
+      <!-- Lienzo para la gráfica de barras -->
       <canvas id="emotionChart" width="300" height="180"></canvas>
 
-      <!-- Leyenda de colores -->
+      <!-- Leyenda de colores de las emociones -->
       <div id="colorLegend" class="color-legend" aria-label="Guía de colores de emociones"></div>
 
-      <!-- Mensaje general según la emoción más frecuente -->
+      <!-- Recomendación principal generada por el análisis -->
       <div id="recommendation" class="recommendation-box"></div>
 
-      <!-- Bloque de recomendaciones accionables -->
+      <!-- Sección de recomendaciones detalladas -->
       <section id="recSection" class="rec-section" hidden>
         <h4>Recomendaciones</h4>
+
+        <!-- Lista de sugerencias más específicas -->
         <ul id="recList"></ul>
+
+        <!-- Nota final que invita a buscar apoyo si es necesario -->
         <p class="rec-footnote">
           Si te sientes así varios días seguidos, conversar con alguien de confianza puede ayudar.
         </p>
       </section>
+
     </section>
   </main>
 
-  <!-- Librerías -->
+  <!-- Librerías externas necesarias -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sentiment@5.1.1/build/sentiment.min.js"></script>
+
+  <!-- Archivo principal de la lógica -->
   <script src="app.js"></script>
 </body>
 </html>

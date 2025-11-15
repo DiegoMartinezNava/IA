@@ -1,25 +1,26 @@
-/* ---------- Reset / base ---------- */
+/* Ajustes básicos para que todo mida bien */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 
+/* Fondo y estilo general de la página */
 body {
   margin: 0;
   font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
-  background: #E9F5FB; /* azul claro relajante */
+  background: #E9F5FB; 
   display: grid;
   place-items: center;
   padding: 32px;
 }
 
-/* ---------- Layout: dos columnas centradas ---------- */
+/* Contenedor principal con dos columnas */
 .layout {
   width: min(1200px, 96vw);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 28px;
-  align-items: stretch;
 }
 
+/* Cuando la pantalla es pequeña, se vuelve una sola columna */
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
@@ -28,7 +29,7 @@ body {
   }
 }
 
-/* ---------- Tarjetas ---------- */
+/* Estilo de las tarjetas (las dos cajitas blancas) */
 .card {
   background: #ffffff;
   border-radius: 16px;
@@ -36,19 +37,18 @@ body {
   padding: 22px;
   display: flex;
   flex-direction: column;
-  min-height: 420px;
-  border-top: 6px solid #3B82F6;
+  border-top: 6px solid #3B82F6; 
 }
 
-/* ---------- Columna izquierda ---------- */
+/* Título principal de la izquierda */
 .container h1 {
   margin: 0 0 12px;
   text-align: center;
   color: #1E3A8A;
   font-size: clamp(1.4rem, 2.3vw, 2.2rem);
-  font-weight: 700;
 }
 
+/* Área donde el usuario escribe su texto */
 textarea {
   width: 100%;
   height: 120px;
@@ -57,24 +57,24 @@ textarea {
   padding: 12px;
   resize: none;
   font-size: 1rem;
-  outline: none;
-  transition: box-shadow .2s ease, border-color .2s ease;
+  transition: .2s ease;
 }
 
+/* Efecto cuando el usuario hace clic en el textarea */
 textarea:focus {
   border-color: #3B82F6;
   box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
 }
 
-/* Botones */
+/* Fila donde van los botones */
 .btn-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 14px;
-  margin-bottom: 8px;
 }
 
+/* Estilo general de los botones */
 button {
   background-color: #3B82F6;
   color: #fff;
@@ -84,14 +84,16 @@ button {
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
-  transition: background-color .3s ease;
 }
 
+/* Hover normal */
 button:hover { background-color: #2563EB; }
 
+/* Botón rojo de limpiar */
 .clear-btn { background-color: #ef4444; }
 .clear-btn:hover { background-color: #b91c1c; }
 
+/* Texto donde se muestra la emoción detectada */
 #emotionResult {
   text-align: center;
   margin: 8px 0 12px;
@@ -99,14 +101,17 @@ button:hover { background-color: #2563EB; }
   color: #334155;
 }
 
+/* Título de la sección Historial */
 h2 {
   margin: 6px 0 8px;
   font-size: 1.5rem;
   color: #1E3A8A;
 }
 
-/* Listas generales */
+/* Quitamos los puntos a las listas */
 ul { list-style: none; padding: 0; margin: 0; }
+
+/* Cada pensamiento guardado */
 li {
   background: #F1F5F9;
   border: 1px solid #E2E8F0;
@@ -115,72 +120,67 @@ li {
   margin-top: 8px;
 }
 
-/* 🔽 Historial con scroll interno */
+/* El historial tiene scroll para no crecer infinito */
 #thoughtList {
-  max-height: 220px;          /* ajusta si quieres más/menos altura de historial */
+  max-height: 220px;
   overflow-y: auto;
-  padding-right: 4px;         /* pequeño espacio para que no tape el scroll */
+  padding-right: 4px;
 }
 
-/* ---------- Columna derecha ---------- */
+/* Título "Emociones detectadas" */
 .chart-container h3 {
   margin: 4px 0 10px;
   font-size: clamp(1.1rem, 1.8vw, 1.6rem);
   color: #1E3A8A;
   text-align: center;
-  font-weight: 700;
 }
 
-/* Canvas responsivo */
+/* Gráfica */
 #emotionChart {
   width: 100%;
-  max-width: 100%;
   height: 240px !important;
-  display: block;
 }
 
-/* Leyenda de colores */
+/* Sección donde aparece la leyenda de colores */
 .color-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 16px;
-  align-items: center;
   justify-content: center;
   margin: 8px 0 10px;
   padding: 6px 8px;
 }
+
+/* Cada colorcito con su etiqueta */
 .color-legend .legend-item {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-size: .95rem;
-  color: #0f172a;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 999px;
   padding: 6px 10px;
 }
+
 .color-legend .dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  flex: 0 0 12px;
 }
 
-/* Mensaje general */
+/* Recuadro verde con la recomendación principal */
 .recommendation-box {
   margin-top: 12px;
   padding: 12px;
   border-radius: 12px;
   background: #D1FAE5;
   border: 1px solid #A7F3D0;
-  font-size: 0.98rem;
   color: #065F46;
   text-align: center;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
 }
 
-/* Bloque "Recomendaciones" */
+/* Sección donde salen las recomendaciones extra */
 .rec-section {
   margin-top: 12px;
   padding: 14px;
@@ -188,20 +188,26 @@ li {
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
 }
+
+/* Texto del título de esa sección */
 .rec-section h4 {
   margin: 0 0 8px;
   color: #0F172A;
-  font-size: 1.05rem;
-  font-weight: 700;
-  text-align: left;
 }
-#recList { list-style: disc; padding-left: 18px; color: #1F2937; }
+
+/* Lista de recomendaciones */
+#recList { 
+  list-style: disc; 
+  padding-left: 18px; 
+}
+
 #recList li {
   background: transparent;
   border: none;
   padding: 4px 0;
-  margin: 0 0 4px;
 }
+
+/* Nota final de ayuda */
 .rec-footnote {
   margin: 8px 0 0;
   font-size: 0.9rem;
