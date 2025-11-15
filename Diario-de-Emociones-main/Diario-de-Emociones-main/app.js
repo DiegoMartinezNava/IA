@@ -1,3 +1,7 @@
+/*Equipo:
+  Chávez Navarro Salma
+  Martínez Nava Diego
+  Tapia Mundo Melissa Monserrat */
 // Aquí guardamos referencias a todos los elementos importantes de la página.
 document.addEventListener("DOMContentLoaded", () => {
   const thoughtInput = document.getElementById("thoughtInput");
