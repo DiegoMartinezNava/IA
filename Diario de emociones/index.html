@@ -4,65 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- Título del proyecto -->
+  <!-- Aquí ponemos el título del proyecto para que salga en la pestaña del navegador. -->
   <title>Diario de Emociones</title>
 
-  <!-- Estilos principales -->
+  <!-- Aquí enlazamos nuestros estilos para darle forma y color a toda la página. -->
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- Estructura principal de dos columnas -->
+  <!-- Aquí armamos la estructura principal con dos columnas para separar escritura y gráfica. -->
   <main class="layout">
 
-    <!-- Tarjeta izquierda: área para escribir y ver historial -->
+    <!-- En esta sección izquierda juntamos el área para escribir y el historial de lo que se ha guardado. -->
     <section class="container card">
 
-      <!-- Título principal del diario -->
+      <!-- Aquí mostramos el título principal para que se note que este es nuestro diario de emociones. -->
       <h1>📝 Diario de Emociones</h1>
 
-      <!-- Área donde el usuario escribe sus pensamientos -->
+      <!-- En este cuadro de texto dejamos que la persona escriba todo lo que está sintiendo o pensando. -->
       <textarea id="thoughtInput" placeholder="Escribe aquí tus pensamientos..."></textarea>
 
-      <!-- Botones de guardar y limpiar historial -->
+      <!-- En este bloque ponemos los botones para guardar lo que se escribió o limpiar todo el historial. -->
       <div class="btn-row">
         <button id="saveBtn">Guardar pensamiento</button>
         <button id="clearBtn" class="clear-btn">🗑️ Limpiar historial</button>
       </div>
 
-      <!-- Mensaje donde se muestra la emoción detectada -->
+      <!-- Aquí mostramos el resultado del análisis, es decir, las emociones que detectamos del texto. -->
       <div id="emotionResult"></div>
 
-      <!-- Título del historial -->
+      <!-- Este título nos sirve para separar visualmente el historial de pensamientos guardados. -->
       <h2>Historial</h2>
 
-      <!-- Lista donde se muestran los pensamientos guardados -->
+      <!-- En esta lista vamos agregando cada pensamiento que se ha guardado junto con su fecha y análisis. -->
       <ul id="thoughtList"></ul>
     </section>
 
-    <!-- Tarjeta derecha: gráfica, colores y recomendaciones -->
+    <!-- En esta sección derecha juntamos la gráfica, la leyenda de colores y la recomendación principal. -->
     <section class="chart-container card">
 
-      <!-- Título de la gráfica -->
+      <!-- Aquí mostramos el título que acompaña a la gráfica de emociones detectadas. -->
       <h3>Emociones detectadas</h3>
 
-      <!-- Lienzo para la gráfica de barras -->
+      <!-- Este canvas es el espacio donde dibujamos la gráfica de barras con Chart.js. -->
       <canvas id="emotionChart" width="300" height="180"></canvas>
 
-      <!-- Leyenda de colores de las emociones -->
+      <!-- En este bloque armamos la leyenda con los colores para cada emoción de la gráfica. -->
       <div id="colorLegend" class="color-legend" aria-label="Guía de colores de emociones"></div>
 
-      <!-- Recomendación principal generada por el análisis -->
+      <!-- Aquí mostramos la recomendación principal que genera el análisis según las emociones detectadas. -->
       <div id="recommendation" class="recommendation-box"></div>
 
-      <!-- Sección de recomendaciones detalladas -->
+      <!-- Esta sección la dejamos lista por si queremos mostrar recomendaciones más detalladas debajo. -->
       <section id="recSection" class="rec-section" hidden>
         <h4>Recomendaciones</h4>
 
-        <!-- Lista de sugerencias más específicas -->
+        <!-- En esta lista podemos ir agregando sugerencias más específicas si en algún momento las usamos. -->
         <ul id="recList"></ul>
 
-        <!-- Nota final que invita a buscar apoyo si es necesario -->
+        <!-- Aquí dejamos una nota final para recordar que también es válido pedir apoyo cuando se necesita. -->
         <p class="rec-footnote">
           Si te sientes así varios días seguidos, conversar con alguien de confianza puede ayudar.
         </p>
@@ -71,11 +71,11 @@
     </section>
   </main>
 
-  <!-- Librerías externas necesarias -->
+  <!-- Aquí cargamos las librerías externas que necesitamos para la gráfica y el análisis de sentimiento. -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sentiment@5.1.1/build/sentiment.min.js"></script>
 
-  <!-- Archivo principal de la lógica -->
+  <!-- Al final conectamos nuestro archivo principal de lógica para que todo lo anterior cobre vida. -->
   <script src="app.js"></script>
 </body>
 </html>

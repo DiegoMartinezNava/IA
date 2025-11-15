@@ -1,8 +1,8 @@
-/* Ajustes básicos para que todo mida bien */
+/* Aquí ajustamos lo básico para que las medidas de todos los elementos se comporten parejo. */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 
-/* Fondo y estilo general de la página */
+/* En esta parte definimos el fondo y el estilo general de la página para que se vea limpio y centrado. */
 body {
   margin: 0;
   font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
@@ -12,7 +12,7 @@ body {
   padding: 32px;
 }
 
-/* Contenedor principal con dos columnas */
+/* Aquí armamos el contenedor principal con dos columnas: una para el diario y otra para la gráfica. */
 .layout {
   width: min(1200px, 96vw);
   display: grid;
@@ -20,7 +20,7 @@ body {
   gap: 28px;
 }
 
-/* Cuando la pantalla es pequeña, se vuelve una sola columna */
+/* Cuando la pantalla se hace chica, aquí hacemos que todo se acomode en una sola columna. */
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
@@ -29,7 +29,7 @@ body {
   }
 }
 
-/* Estilo de las tarjetas (las dos cajitas blancas) */
+/* Aquí damos estilo a las tarjetas blancas para que se vean como cajitas flotando sobre el fondo. */
 .card {
   background: #ffffff;
   border-radius: 16px;
@@ -40,7 +40,7 @@ body {
   border-top: 6px solid #3B82F6; 
 }
 
-/* Título principal de la izquierda */
+/* Con esto acomodamos el título principal de la columna izquierda y le damos un tamaño más vistoso. */
 .container h1 {
   margin: 0 0 12px;
   text-align: center;
@@ -48,7 +48,7 @@ body {
   font-size: clamp(1.4rem, 2.3vw, 2.2rem);
 }
 
-/* Área donde el usuario escribe su texto */
+/* Aquí diseñamos el área donde se escribe el texto para que sea cómoda y fácil de leer. */
 textarea {
   width: 100%;
   height: 120px;
@@ -60,13 +60,13 @@ textarea {
   transition: .2s ease;
 }
 
-/* Efecto cuando el usuario hace clic en el textarea */
+/* Con este efecto hacemos que el textarea se note más cuando la persona está escribiendo ahí. */
 textarea:focus {
   border-color: #3B82F6;
   box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
 }
 
-/* Fila donde van los botones */
+/* Aquí alineamos los botones en una fila para que queden parejitos y con espacio entre ellos. */
 .btn-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -74,7 +74,7 @@ textarea:focus {
   margin-top: 14px;
 }
 
-/* Estilo general de los botones */
+/* En este bloque damos el estilo base a todos los botones para que se vean consistentes. */
 button {
   background-color: #3B82F6;
   color: #fff;
@@ -86,14 +86,14 @@ button {
   font-weight: 600;
 }
 
-/* Hover normal */
+/* Aquí aplicamos el cambio de color cuando pasamos el mouse por encima del botón. */
 button:hover { background-color: #2563EB; }
 
-/* Botón rojo de limpiar */
+/* A este botón le damos el tono rojo porque se encarga de limpiar el historial. */
 .clear-btn { background-color: #ef4444; }
 .clear-btn:hover { background-color: #b91c1c; }
 
-/* Texto donde se muestra la emoción detectada */
+/* En este texto mostramos el resultado de la emoción detectada, centrado y con un tamaño cómodo. */
 #emotionResult {
   text-align: center;
   margin: 8px 0 12px;
@@ -101,17 +101,17 @@ button:hover { background-color: #2563EB; }
   color: #334155;
 }
 
-/* Título de la sección Historial */
+/* Aquí ajustamos el título de la sección de Historial para que resalte un poquito más. */
 h2 {
   margin: 6px 0 8px;
   font-size: 1.5rem;
   color: #1E3A8A;
 }
 
-/* Quitamos los puntos a las listas */
+/* Con esto quitamos las viñetas de las listas y limpiamos márgenes por defecto. */
 ul { list-style: none; padding: 0; margin: 0; }
 
-/* Cada pensamiento guardado */
+/* Aquí definimos el estilo de cada pensamiento guardado como una tarjetita gris claro. */
 li {
   background: #F1F5F9;
   border: 1px solid #E2E8F0;
@@ -120,14 +120,14 @@ li {
   margin-top: 8px;
 }
 
-/* El historial tiene scroll para no crecer infinito */
+/* Al historial le ponemos una altura máxima y scroll para que no alargue toda la página. */
 #thoughtList {
   max-height: 220px;
   overflow-y: auto;
   padding-right: 4px;
 }
 
-/* Título "Emociones detectadas" */
+/* Con esto damos estilo al título de la sección de la gráfica de emociones. */
 .chart-container h3 {
   margin: 4px 0 10px;
   font-size: clamp(1.1rem, 1.8vw, 1.6rem);
@@ -135,13 +135,13 @@ li {
   text-align: center;
 }
 
-/* Gráfica */
+/* Aquí marcamos el tamaño del canvas donde va la gráfica de barras. */
 #emotionChart {
   width: 100%;
   height: 240px !important;
 }
 
-/* Sección donde aparece la leyenda de colores */
+/* En esta parte organizamos la sección donde mostramos la leyenda de colores de las emociones. */
 .color-legend {
   display: flex;
   flex-wrap: wrap;
@@ -151,7 +151,7 @@ li {
   padding: 6px 8px;
 }
 
-/* Cada colorcito con su etiqueta */
+/* Aquí definimos cada chip de la leyenda con su colorcito y texto. */
 .color-legend .legend-item {
   display: inline-flex;
   align-items: center;
@@ -169,7 +169,7 @@ li {
   border-radius: 50%;
 }
 
-/* Recuadro verde con la recomendación principal */
+/* En este recuadro verde mostramos la recomendación principal de forma destacada. */
 .recommendation-box {
   margin-top: 12px;
   padding: 12px;
@@ -180,7 +180,7 @@ li {
   text-align: center;
 }
 
-/* Sección donde salen las recomendaciones extra */
+/* Aquí damos estilo a la sección donde podrían ir recomendaciones adicionales. */
 .rec-section {
   margin-top: 12px;
   padding: 14px;
@@ -189,13 +189,13 @@ li {
   border: 1px solid #E2E8F0;
 }
 
-/* Texto del título de esa sección */
+/* En este título marcamos la cabecera de la sección de recomendaciones extra. */
 .rec-section h4 {
   margin: 0 0 8px;
   color: #0F172A;
 }
 
-/* Lista de recomendaciones */
+/* Aquí ajustamos la lista específicamente para las recomendaciones complementarias. */
 #recList { 
   list-style: disc; 
   padding-left: 18px; 
@@ -207,7 +207,7 @@ li {
   padding: 4px 0;
 }
 
-/* Nota final de ayuda */
+/* En este texto dejamos la nota final que invita a buscar apoyo si se necesita. */
 .rec-footnote {
   margin: 8px 0 0;
   font-size: 0.9rem;
