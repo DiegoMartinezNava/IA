@@ -1,0 +1,274 @@
+/* =======================
+   General
+   Definimos la tipografía, fondo, centrado y padding general de la página.
+ Equipo:
+  Chávez Navarro Salma
+  Martínez Nava Diego
+  Tapia Mundo Melissa Monserrat 
+======================= */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  color: #4D96FF;
+  margin-bottom: 25px;
+  font-size: 2rem;
+}
+
+.container {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 35px 30px;
+  width: 100%;
+  max-width: 650px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* =======================
+   Textarea
+   Estilizamos el área de escritura con bordes redondeados y foco resaltado.
+======================= */
+textarea {
+  width: 95% !important;
+  margin: 0 auto;
+  display: block;
+  height: 130px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 14px;
+  resize: none;
+  font-size: 1rem;
+  transition: border 0.3s, box-shadow 0.3s;
+  margin-bottom: 20px;
+}
+
+textarea:focus {
+  border-color: #4D96FF;
+  box-shadow: 0 0 8px rgba(77,150,255,0.3);
+  outline: none;
+}
+
+/* =======================
+   Botones
+   Definimos el estilo de los botones y su efecto hover.
+======================= */
+button {
+  background-color: #4D96FF;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  display: block;
+  margin: 15px auto 0;
+}
+
+button:hover {
+  background-color: #357ABD;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(77,150,255,0.2);
+}
+
+/* =======================
+   Resultados de emoción
+   Centramos y estilizamos el texto que muestra la emoción detectada.
+======================= */
+#emotionResult {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* =======================
+   Historial de pensamientos
+   Estilizamos la lista de pensamientos guardados y sus efectos hover.
+======================= */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+li {
+  background: #f7f9fc;
+  border-left: 5px solid #4D96FF;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 12px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+li:hover {
+  background: #eaf0ff;
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(77,150,255,0.15);
+}
+
+/* =======================
+   Contenedor de gráfica
+   Estilizamos la caja de la gráfica y título.
+======================= */
+.chart-container {
+  width: 90%;
+  max-width: 550px;
+  margin: 30px auto 15px;
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 25px 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.chart-container h3 {
+  font-size: 1rem;
+  color: #4D96FF;
+  margin-bottom: 12px;
+}
+
+#emotionChart {
+  width: 100%;
+  height: 200px !important;
+}
+
+/* =======================
+   Recomendaciones
+   Estilizamos la caja de recomendaciones con efecto hover.
+======================= */
+.recommendation-box {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e3f0ff, #f3f7ff);
+  font-size: 0.95rem;
+  color: #333;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.recommendation-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.recommendation-box strong {
+  font-weight: 600;
+  color: #4D96FF;
+}
+
+/* =======================
+   Resumen diario
+   Estilizamos la sección de resumen con fondo suave y color destacado.
+======================= */
+.resumen-diario {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff3e0;
+  color: #FF6B6B;
+  font-style: italic;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* =======================
+   Emociones combinadas
+   Estilizamos los span que muestran emociones dentro del texto.
+======================= */
+.emocion-combinada {
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: 8px;
+  color: #fff;
+  margin-right: 4px;
+  display: inline-block;
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+
+.emocion-combinada:hover {
+  transform: scale(1.05);
+}
+
+/* Colores por emoción */
+.emocion-combinada.alegria { background-color: #FFD93D; color: #4D3C00; }
+.emocion-combinada.tristeza { background-color: #6BCB77; color: #033C00; }
+.emocion-combinada.enojo { background-color: #FF6B6B; color: #660000; }
+.emocion-combinada.miedo { background-color: #4D96FF; color: #fff; }
+.emocion-combinada.amor { background-color: #FFB5E8; color: #4D003C; }
+.emocion-combinada.sorpresa { background-color: #C9BBCF; color: #3D2C3D; }
+.emocion-combinada.aburrimiento { background-color: #A0AEC0; color: #1A1A1A; }
+.emocion-combinada.ansiedad { background-color: #FFD6A5; color: #663300; }
+
+/* Intensidad de emociones */
+.emocion-combinada.moderada { opacity: 0.85; }
+.emocion-combinada.alta { opacity: 1; font-weight: 700; }
+.emocion-combinada.baja { opacity: 0.6; }
+
+/* =======================
+   Espaciado extra
+   Ajustamos margenes finales para consistencia.
+======================= */
+textarea, .recommendation-box, .chart-container, ul {
+  margin-bottom: 25px;
+}
+/* ===========================
+   LAYOUT SIN MODIFICAR ESTILOS
+=========================== */
+.layout {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Columnas independientes que NO alteran container/chart-container */
+.col-diario {
+  width: 50%;
+}
+
+.col-grafica {
+  width: 40%;
+}
+
+/* ===========================
+   Scroll del historial
+=========================== */
+.scroll-historial {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.scroll-historial::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-historial::-webkit-scrollbar-thumb {
+  background: #4D96FF;
+  border-radius: 8px;
+}
+
+.scroll-historial::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+
+.layout {
+  gap: 60px;
+}
+
+.chart-container button {
+  display: none;
+}

@@ -1,0 +1,63 @@
+  <!-- Equipo:
+  Chávez Navarro Salma
+  Martínez Nava Diego
+  Tapia Mundo Melissa Monserrat -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diario de Emociones</title>
+  <!-- Aquí enlazamos nuestro archivo de estilos CSS para que la página tenga apariencia bonita y ordenada -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="layout">
+    <!-- Creamos un contenedor principal que va a dividir la página en dos columnas: izquierda y derecha -->
+
+    <!-- IZQUIERDA: Nuestro diario de emociones -->
+    <div class="col-diario">
+      <div class="container">
+        <h1>📝 Diario de Emociones</h1>
+
+        <!-- Aquí el usuario puede escribir sus pensamientos diarios -->
+        <textarea id="thoughtInput" placeholder="Escribe aquí tus pensamientos..."></textarea>
+        
+        <!-- Botones de acción para guardar o limpiar los pensamientos -->
+        <button id="saveBtn">Guardar pensamiento</button>
+        <button id="clearBtn" class="clear-btn">Limpiar todo</button>
+
+        <!-- Aquí se mostrará el resultado del análisis de emociones del texto que escribamos -->
+        <div id="emotionResult"></div>
+
+        <h2>Historial</h2>
+        <!-- Listado donde se van a mostrar todos los pensamientos guardados -->
+        <ul id="thoughtList" class="scroll-historial"></ul>
+
+        <!-- Resumen diario de emociones, se actualizará dinámicamente -->
+        <div class="resumen-diario" id="resumenDiario">
+          Aquí aparecerá tu resumen diario de emociones.
+        </div>
+      </div>
+    </div>
+
+    <!-- DERECHA: Aquí mostramos la gráfica de emociones -->
+    <div class="col-grafica">
+      <div class="chart-container">
+        <h3>Gráfica de emociones</h3>
+        <!-- Canvas donde se va a renderizar la gráfica usando Chart.js -->
+        <canvas id="emotionChart" width="300" height="180"></canvas>
+        <!-- Recomendaciones o insights basados en las emociones detectadas -->
+        <div id="recommendation" class="recommendation-box"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Librerías externas que necesitamos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Para crear gráficas bonitas -->
+  <script src="https://cdn.jsdelivr.net/npm/sentiment@5.1.1/build/sentiment.min.js"></script> <!-- Para analizar emociones del texto -->
+  <script src="app.js"></script> <!-- Nuestro código JavaScript que hace que todo funcione -->
+</body>
+</html>
