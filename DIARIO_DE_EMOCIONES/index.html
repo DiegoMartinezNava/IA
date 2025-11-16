@@ -1,63 +1,122 @@
-  <!-- Equipo:
+<!-- Equipo:
   Chávez Navarro Salma
   Martínez Nava Diego
   Tapia Mundo Melissa Monserrat -->
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diario de Emociones</title>
-  <!-- Aquí enlazamos nuestro archivo de estilos CSS para que la página tenga apariencia bonita y ordenada -->
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <div class="layout">
-    <!-- Creamos un contenedor principal que va a dividir la página en dos columnas: izquierda y derecha -->
-
-    <!-- IZQUIERDA: Nuestro diario de emociones -->
-    <div class="col-diario">
-      <div class="container">
-        <h1>📝 Diario de Emociones</h1>
-
-        <!-- Aquí el usuario puede escribir sus pensamientos diarios -->
-        <textarea id="thoughtInput" placeholder="Escribe aquí tus pensamientos..."></textarea>
-        
-        <!-- Botones de acción para guardar o limpiar los pensamientos -->
-        <button id="saveBtn">Guardar pensamiento</button>
-        <button id="clearBtn" class="clear-btn">Limpiar todo</button>
-
-        <!-- Aquí se mostrará el resultado del análisis de emociones del texto que escribamos -->
-        <div id="emotionResult"></div>
-
-        <h2>Historial</h2>
-        <!-- Listado donde se van a mostrar todos los pensamientos guardados -->
-        <ul id="thoughtList" class="scroll-historial"></ul>
-
-        <!-- Resumen diario de emociones, se actualizará dinámicamente -->
-        <div class="resumen-diario" id="resumenDiario">
-          Aquí aparecerá tu resumen diario de emociones.
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <!-- Aquí nos aseguramos de que en celular también se vea bien el diseño -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diario de Emociones</title>
+  
+    <!-- Conectamos nuestro archivo de estilos, donde damos toda la apariencia visual -->
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  
+    <!-- Este layout principal lo usamos para dividir la pantalla en dos columnas:
+         a la izquierda el diario y a la derecha la gráfica -->
+    <div class="layout">
+  
+      <!-- =======================
+           COLUMNA IZQUIERDA
+           Aquí va la parte del diario y el historial
+      ======================== -->
+      <div class="col-diario">
+        <!-- Este contenedor es la tarjeta blanca donde se ve el diario -->
+        <div class="container">
+          <h1>📝 Diario de Emociones</h1>
+  
+          <!-- Aquí dejamos el cuadro donde la persona escribe sus pensamientos.
+               Este texto es lo que vamos a analizar en el JS. -->
+          <textarea id="thoughtInput" placeholder="Escribe aquí tus pensamientos..."></textarea>
+          
+          <!-- Estos son los botones principales:
+               - Guardar: lanza el análisis y guarda en el historial
+               - Limpiar: borra todo el historial del localStorage -->
+          <button id="saveBtn">Guardar pensamiento</button>
+          <button id="clearBtn" class="clear-btn">Limpiar todo</button>
+  
+          <!-- Aquí mostramos el texto tipo:
+               'Emociones detectadas: alegría, ansiedad, etc.' -->
+          <div id="emotionResult"></div>
+  
+          <h2>Historial</h2>
+  
+          <!-- Lista donde vamos cargando todos los pensamientos guardados.
+               El scroll lo controlamos con la clase scroll-historial en el CSS. -->
+          <ul id="thoughtList" class="scroll-historial"></ul>
+  
+          <!-- Este bloque lo dejamos para un posible resumen diario de emociones,
+               por ahora lo usamos como texto informativo. -->
+          <div class="resumen-diario" id="resumenDiario">
+            Aquí aparecerá tu resumen diario de emociones.
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- DERECHA: Aquí mostramos la gráfica de emociones -->
-    <div class="col-grafica">
-      <div class="chart-container">
-        <h3>Gráfica de emociones</h3>
-        <!-- Canvas donde se va a renderizar la gráfica usando Chart.js -->
-        <canvas id="emotionChart" width="300" height="180"></canvas>
-        <!-- Recomendaciones o insights basados en las emociones detectadas -->
-        <div id="recommendation" class="recommendation-box"></div>
+  
+      <!-- =======================
+           COLUMNA DERECHA
+           Aquí va la gráfica y las recomendaciones
+      ======================== -->
+      <div class="col-grafica">
+        <!-- Este contenedor es la tarjeta blanca donde va la gráfica y la leyenda -->
+        <div class="chart-container">
+          <h3>Gráfica de emociones</h3>
+  
+          <!-- Aquí dibujamos la gráfica de barras con Chart.js.
+               El JS se conecta usando el id emotionChart. -->
+          <canvas id="emotionChart" width="300" height="180"></canvas>
+  
+          <!-- Esta es la leyenda que pusimos afuera de la gráfica.
+               La idea es que nos diga qué color corresponde a cada emoción,
+               sin saturar el interior de la gráfica. -->
+          <div class="legend-emociones">
+            <div class="legend-item">
+              <span class="legend-color alegria"></span> Alegría
+            </div>
+            <div class="legend-item">
+              <span class="legend-color tristeza"></span> Tristeza
+            </div>
+            <div class="legend-item">
+              <span class="legend-color enojo"></span> Enojo
+            </div>
+            <div class="legend-item">
+              <span class="legend-color miedo"></span> Miedo
+            </div>
+            <div class="legend-item">
+              <span class="legend-color amor"></span> Amor
+            </div>
+            <div class="legend-item">
+              <span class="legend-color sorpresa"></span> Sorpresa
+            </div>
+            <div class="legend-item">
+              <span class="legend-color aburrimiento"></span> Aburrimiento
+            </div>
+            <div class="legend-item">
+              <span class="legend-color ansiedad"></span> Ansiedad
+            </div>
+          </div>
+  
+          <!-- Aquí mostramos el texto de recomendaciones según las emociones
+               detectadas. Lo rellenamos desde app.js. -->
+          <div id="recommendation" class="recommendation-box"></div>
+        </div>
       </div>
+  
     </div>
-
-  </div>
-
-  <!-- Librerías externas que necesitamos -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Para crear gráficas bonitas -->
-  <script src="https://cdn.jsdelivr.net/npm/sentiment@5.1.1/build/sentiment.min.js"></script> <!-- Para analizar emociones del texto -->
-  <script src="app.js"></script> <!-- Nuestro código JavaScript que hace que todo funcione -->
-</body>
-</html>
+  
+    <!-- =======================
+         Librerías externas
+         Aquí conectamos Chart.js y Sentiment.js
+    ======================== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sentiment@5.1.1/build/sentiment.min.js"></script>
+  
+    <!-- Finalmente conectamos nuestro archivo de lógica principal del proyecto -->
+    <script src="app.js"></script>
+  
+  </body>
+  </html>
+  

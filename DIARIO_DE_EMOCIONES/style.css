@@ -16,6 +16,7 @@ body {
   color: #333;
 }
 
+/* Título principal del diario */
 h1 {
   text-align: center;
   color: #4D96FF;
@@ -23,6 +24,7 @@ h1 {
   font-size: 2rem;
 }
 
+/* Tarjeta blanca del diario (lado izquierdo) */
 .container {
   background: #ffffff;
   border-radius: 15px;
@@ -34,7 +36,8 @@ h1 {
 
 /* =======================
    Textarea
-   Estilizamos el área de escritura con bordes redondeados y foco resaltado.
+   Aquí damos estilo al cuadro donde se escriben los pensamientos.
+   Buscamos que sea cómodo de leer y escribir.
 ======================= */
 textarea {
   width: 95% !important;
@@ -50,6 +53,7 @@ textarea {
   margin-bottom: 20px;
 }
 
+/* Efecto cuando ponemos el cursor dentro del textarea */
 textarea:focus {
   border-color: #4D96FF;
   box-shadow: 0 0 8px rgba(77,150,255,0.3);
@@ -58,7 +62,8 @@ textarea:focus {
 
 /* =======================
    Botones
-   Definimos el estilo de los botones y su efecto hover.
+   Aquí definimos los estilos de los botones principales del diario.
+   Queremos que se vean modernos y con un pequeño efecto al pasar el mouse.
 ======================= */
 button {
   background-color: #4D96FF;
@@ -73,6 +78,7 @@ button {
   margin: 15px auto 0;
 }
 
+/* Efecto hover para que se sientan “clicables” */
 button:hover {
   background-color: #357ABD;
   transform: translateY(-2px);
@@ -80,8 +86,8 @@ button:hover {
 }
 
 /* =======================
-   Resultados de emoción
-   Centramos y estilizamos el texto que muestra la emoción detectada.
+   Resultado de emoción
+   Aquí centramos y estilizamos el texto que muestra el análisis de emociones.
 ======================= */
 #emotionResult {
   text-align: center;
@@ -92,7 +98,7 @@ button:hover {
 
 /* =======================
    Historial de pensamientos
-   Estilizamos la lista de pensamientos guardados y sus efectos hover.
+   Estilos para la lista de elementos donde mostramos el historial del diario.
 ======================= */
 ul {
   list-style: none;
@@ -100,6 +106,7 @@ ul {
   margin-top: 20px;
 }
 
+/* Cada pensamiento se muestra como una tarjeta pequeña con borde a la izquierda */
 li {
   background: #f7f9fc;
   border-left: 5px solid #4D96FF;
@@ -109,6 +116,7 @@ li {
   transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
 }
 
+/* Efecto al pasar el mouse sobre un elemento del historial */
 li:hover {
   background: #eaf0ff;
   transform: scale(1.02);
@@ -117,7 +125,7 @@ li:hover {
 
 /* =======================
    Contenedor de gráfica
-   Estilizamos la caja de la gráfica y título.
+   Esta tarjeta la usamos para la gráfica y la leyenda de colores.
 ======================= */
 .chart-container {
   width: 90%;
@@ -130,12 +138,14 @@ li:hover {
   text-align: center;
 }
 
+/* Título de la sección de gráfica */
 .chart-container h3 {
   font-size: 1rem;
   color: #4D96FF;
   margin-bottom: 12px;
 }
 
+/* Ajustamos un alto fijo a la gráfica para que no se deforme */
 #emotionChart {
   width: 100%;
   height: 200px !important;
@@ -143,7 +153,7 @@ li:hover {
 
 /* =======================
    Recomendaciones
-   Estilizamos la caja de recomendaciones con efecto hover.
+   Aquí estilizamos la caja donde mostramos el consejo emocional.
 ======================= */
 .recommendation-box {
   margin-top: 18px;
@@ -157,6 +167,7 @@ li:hover {
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
+/* Le damos un ligero levantamiento al pasar el mouse */
 .recommendation-box:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
@@ -169,7 +180,7 @@ li:hover {
 
 /* =======================
    Resumen diario
-   Estilizamos la sección de resumen con fondo suave y color destacado.
+   Aquí marcamos un espacio especial para un resumen más general del día.
 ======================= */
 .resumen-diario {
   margin-top: 15px;
@@ -184,7 +195,8 @@ li:hover {
 
 /* =======================
    Emociones combinadas
-   Estilizamos los span que muestran emociones dentro del texto.
+   Estos estilos son para los span que resaltan palabras dentro del texto
+   con el nombre de la emoción y su intensidad.
 ======================= */
 .emocion-combinada {
   font-weight: 600;
@@ -197,11 +209,12 @@ li:hover {
   transition: transform 0.2s;
 }
 
+/* Pequeño efecto de zoom cuando pasamos encima de una emoción marcada */
 .emocion-combinada:hover {
   transform: scale(1.05);
 }
 
-/* Colores por emoción */
+/* Colores por emoción, para que cada tipo se asocie visualmente a un tono */
 .emocion-combinada.alegria { background-color: #FFD93D; color: #4D3C00; }
 .emocion-combinada.tristeza { background-color: #6BCB77; color: #033C00; }
 .emocion-combinada.enojo { background-color: #FF6B6B; color: #660000; }
@@ -211,20 +224,24 @@ li:hover {
 .emocion-combinada.aburrimiento { background-color: #A0AEC0; color: #1A1A1A; }
 .emocion-combinada.ansiedad { background-color: #FFD6A5; color: #663300; }
 
-/* Intensidad de emociones */
+/* Intensidad de emociones: usamos la opacidad para marcar si es baja o alta */
 .emocion-combinada.moderada { opacity: 0.85; }
 .emocion-combinada.alta { opacity: 1; font-weight: 700; }
 .emocion-combinada.baja { opacity: 0.6; }
 
 /* =======================
    Espaciado extra
-   Ajustamos margenes finales para consistencia.
+   Aquí ajustamos márgenes para que todo tenga buena separación.
 ======================= */
 textarea, .recommendation-box, .chart-container, ul {
   margin-bottom: 25px;
 }
+
 /* ===========================
-   LAYOUT SIN MODIFICAR ESTILOS
+   LAYOUT GENERAL
+   Aquí definimos la distribución en dos columnas:
+   - Una para el diario
+   - Otra para la gráfica
 =========================== */
 .layout {
   width: 100%;
@@ -234,17 +251,19 @@ textarea, .recommendation-box, .chart-container, ul {
   align-items: flex-start;
 }
 
-/* Columnas independientes que NO alteran container/chart-container */
+/* Columna izquierda: diario */
 .col-diario {
   width: 50%;
 }
 
+/* Columna derecha: gráfica y recomendaciones */
 .col-grafica {
   width: 40%;
 }
 
 /* ===========================
    Scroll del historial
+   Limitamos el alto y personalizamos la barra de scroll
 =========================== */
 .scroll-historial {
   max-height: 250px;
@@ -252,23 +271,68 @@ textarea, .recommendation-box, .chart-container, ul {
   padding-right: 8px;
 }
 
+/* Ancho de la barra de scroll */
 .scroll-historial::-webkit-scrollbar {
   width: 8px;
 }
 
+/* Color del "thumb" (la parte que se arrastra) */
 .scroll-historial::-webkit-scrollbar-thumb {
   background: #4D96FF;
   border-radius: 8px;
 }
 
+/* Fondo de la pista del scroll */
 .scroll-historial::-webkit-scrollbar-track {
   background: #e2e8f0;
 }
 
+/* Ajustamos un poco más el espacio entre columnas */
 .layout {
   gap: 60px;
 }
 
+/* Por si algún botón se cuela dentro de chart-container, lo ocultamos.
+   Lo usamos como seguro visual. */
 .chart-container button {
   display: none;
 }
+
+/* =======================
+   Leyenda de emociones (colores de la gráfica)
+   Aquí armamos la tira de colores que explica qué color es cada emoción.
+======================= */
+.legend-emociones {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+/* Cada elemento de la leyenda tiene el cuadrito de color y el texto al lado */
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Cuadrito de color que representa cada emoción en la gráfica */
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Aquí sincronizamos los colores de la leyenda con los de Chart.js */
+.legend-color.alegria { background-color: #FFD93D; }
+.legend-color.tristeza { background-color: #6BCB77; }
+.legend-color.enojo { background-color: #FF6B6B; }
+.legend-color.miedo { background-color: #4D96FF; }
+.legend-color.amor { background-color: #FFB5E8; }
+.legend-color.sorpresa { background-color: #C9BBCF; }
+.legend-color.aburrimiento { background-color: #A0AEC0; }
+.legend-color.ansiedad { background-color: #FFD6A5; }
